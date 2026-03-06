@@ -56,6 +56,8 @@ try data.withDataParser { parser in
 Byte ranges can be subscripted, compared, and more:
 
 ```swift
+let data = Data([0x01, 0x02, 0x03, 0x04, 0x05])
+
 try data.withDataParser { parser in
     let byte = try parser.readByte() // 0x01 as UInt8
     let bytes = try parser.read(bytes: 2) // [0x02, 0x03] as UInt8 buffer ptr
