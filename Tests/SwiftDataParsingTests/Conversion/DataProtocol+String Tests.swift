@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_String_Tests {
     @Test
-    func string() throws {
+    func string() async throws {
         let sourceString = "This is a test string"
         
         let expectedBytes: [UInt8] = [
@@ -33,7 +33,7 @@ import Testing
     }
     
     @Test
-    func string_uInt8Array() throws {
+    func string_uInt8Array() async throws {
         let sourceString = "This is a test string"
         
         let expectedBytes: [UInt8] = [

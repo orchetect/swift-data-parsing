@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_Double_Tests {
     @Test
-    func double() {
+    func double() async {
         // .toData
 
         #expect(
@@ -71,7 +71,7 @@ import Testing
     }
 
     @Test
-    func double_uInt8Array() {
+    func double_uInt8Array() async {
         // .toDouble
 
         #expect(
@@ -85,7 +85,7 @@ import Testing
     }
 
     @Test
-    func double_data_pointer() {
+    func double_data_pointer() async {
         // .toDouble
 
         let data = Data([1, 2, 3, 4, 5, 6, 7, 8])
@@ -100,7 +100,7 @@ import Testing
     }
 
     @Test
-    func double_data_subsequence_pointer() {
+    func double_data_subsequence_pointer() async {
         // .toDouble
 
         let baseData = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])
@@ -117,7 +117,7 @@ import Testing
     }
 
     @Test
-    func double_rawPointer() {
+    func double_rawPointer() async {
         // .toDouble
 
         let data = Data([1, 2, 3, 4, 5, 6, 7, 8])
@@ -132,7 +132,7 @@ import Testing
     }
 
     @Test
-    func double_rawPointer_slice() {
+    func double_rawPointer_slice() async {
         // .toDouble
 
         let data = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])
@@ -148,7 +148,7 @@ import Testing
     }
 
     @Test
-    func double_uInt8Pointer_slice() {
+    func double_uInt8Pointer_slice() async {
         // .toDouble
 
         let data = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])

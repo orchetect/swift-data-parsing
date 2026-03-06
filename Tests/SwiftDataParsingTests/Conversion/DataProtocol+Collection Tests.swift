@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_Collection_Tests {
     @Test
-    func dataUInt8Bytes() {
+    func dataUInt8Bytes() async {
         let sourceBytes: [UInt8] = [1, 2, 3]
         
         // Collection -> Data
@@ -25,7 +25,7 @@ import Testing
     }
     
     @Test
-    func dataUInt8Bytes_uInt8Array() {
+    func dataUInt8Bytes_uInt8Array() async {
         let sourceBytes: [UInt8] = [1, 2, 3]
         
         // Collection -> Data

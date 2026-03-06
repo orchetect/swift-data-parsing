@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_UInt_Tests {
     @Test
-    func uInt() {
+    func uInt() async {
         // UInt is 32-bit on 32-bit systems, 64-bit on 64-bit systems
         #if !(arch(arm) || arch(arm64_32) || arch(i386))
 
@@ -119,7 +119,7 @@ import Testing
     }
 
     @Test
-    func uInt_uInt8Array() {
+    func uInt_uInt8Array() async {
         // UInt is 32-bit on 32-bit systems, 64-bit on 64-bit systems
         #if !(arch(arm) || arch(arm64_32) || arch(i386))
 
@@ -151,7 +151,7 @@ import Testing
     }
 
     @Test
-    func uInt8() {
+    func uInt8() async {
         // .toData
 
         #expect(UInt8(0b1).toData() == Data([0b1]))
@@ -170,7 +170,7 @@ import Testing
     }
 
     @Test
-    func uInt8_uInt8Array() {
+    func uInt8_uInt8Array() async {
         // .toUInt8
 
         #expect(([] as [UInt8]).toUInt8() == nil) // underflow
@@ -179,7 +179,7 @@ import Testing
     }
 
     @Test
-    func uInt16() {
+    func uInt16() async {
         // .toData
 
         #expect(UInt16(0b1).toData(.littleEndian) == Data([0b1, 0]))
@@ -211,7 +211,7 @@ import Testing
     }
 
     @Test
-    func uInt16_uInt8Array() {
+    func uInt16_uInt8Array() async {
         // .toUInt16
 
         #expect(
@@ -225,7 +225,7 @@ import Testing
     }
 
     @Test
-    func uInt32() {
+    func uInt32() async {
         // .toData
 
         #expect(UInt32(0b1).toData(.littleEndian) == Data([0b1, 0, 0, 0]))
@@ -259,7 +259,7 @@ import Testing
     }
 
     @Test
-    func uInt32_uInt8Array() {
+    func uInt32_uInt8Array() async {
         // .toUInt32
 
         #expect(
@@ -274,7 +274,7 @@ import Testing
 
     #if !(arch(arm) || arch(arm64_32) || arch(i386))
     @Test
-    func uInt64() {
+    func uInt64() async {
         // .toData
 
         #expect(UInt64(0b1).toData(.littleEndian) == Data([0b1, 0, 0, 0, 0, 0, 0, 0]))
@@ -327,7 +327,7 @@ import Testing
     }
 
     @Test
-    func uInt64_uInt8Array() {
+    func uInt64_uInt8Array() async {
         // .toUInt64
 
         #expect(

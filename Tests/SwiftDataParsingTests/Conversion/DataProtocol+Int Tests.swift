@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_Int_Tests {
     @Test
-    func int() {
+    func int() async {
         // Int is 32-bit on 32-bit systems, 64-bit on 64-bit systems
 
         #if !(arch(arm) || arch(arm64_32) || arch(i386))
@@ -120,7 +120,7 @@ import Testing
     }
 
     @Test
-    func int_uInt8Array() {
+    func int_uInt8Array() async {
         // Int is 32-bit on 32-bit systems, 64-bit on 64-bit systems
 
         #if !(arch(arm) || arch(arm64_32) || arch(i386))
@@ -157,7 +157,7 @@ import Testing
     }
 
     @Test
-    func int8() {
+    func int8() async {
         // .toData
 
         #expect(Int8(0b1).toData() == Data([0b1]))
@@ -177,7 +177,7 @@ import Testing
     }
 
     @Test
-    func int8_uInt8Array() {
+    func int8_uInt8Array() async {
         // .toInt8
 
         #expect(([] as [UInt8]).toInt8() == nil) // underflow
@@ -186,7 +186,7 @@ import Testing
     }
 
     @Test
-    func int16() {
+    func int16() async {
         // .toData
 
         #expect(Int16(0b1).toData(.littleEndian) == Data([0b1, 0]))
@@ -221,7 +221,7 @@ import Testing
     }
 
     @Test
-    func int16_uInt8Array() {
+    func int16_uInt8Array() async {
         // .toInt16
 
         #expect(
@@ -235,7 +235,7 @@ import Testing
     }
 
     @Test
-    func int32() {
+    func int32() async {
         // .toData
 
         #expect(Int32(0b1).toData(.littleEndian) == Data([0b1, 0, 0, 0]))
@@ -281,7 +281,7 @@ import Testing
     }
 
     @Test
-    func int32_uInt8Array() {
+    func int32_uInt8Array() async {
         // .toInt32
 
         #expect(
@@ -295,7 +295,7 @@ import Testing
     }
 
     @Test
-    func int32_data_pointer() {
+    func int32_data_pointer() async {
         // .toInt32
 
         let data = Data([1, 2, 3, 4])
@@ -312,7 +312,7 @@ import Testing
     }
 
     @Test
-    func int32_data_subsequence_pointer() {
+    func int32_data_subsequence_pointer() async {
         // .toInt32
 
         let baseData = Data([99, 1, 2, 3, 4])
@@ -331,7 +331,7 @@ import Testing
     }
 
     @Test
-    func int32_rawPointer() {
+    func int32_rawPointer() async {
         // .toInt32
 
         let data = Data([1, 2, 3, 4])
@@ -348,7 +348,7 @@ import Testing
     }
 
     @Test
-    func int32_rawPointer_slice() {
+    func int32_rawPointer_slice() async {
         // .toInt32
 
         let data = Data([99, 1, 2, 3, 4])
@@ -366,7 +366,7 @@ import Testing
     }
 
     @Test
-    func int32_uInt8Pointer_slice() {
+    func int32_uInt8Pointer_slice() async {
         // .toInt32
 
         let data = Data([99, 1, 2, 3, 4])
@@ -385,7 +385,7 @@ import Testing
 
     #if !(arch(arm) || arch(arm64_32) || arch(i386))
     @Test
-    func int64() {
+    func int64() async {
         // .toData
 
         #expect(Int64(0b1).toData(.littleEndian) == Data([0b1, 0, 0, 0, 0, 0, 0, 0]))
@@ -438,7 +438,7 @@ import Testing
     }
 
     @Test
-    func int64_uInt8Array() {
+    func int64_uInt8Array() async {
         // .toInt64
 
         #expect(

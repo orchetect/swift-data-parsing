@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_Float32_Tests {
     @Test
-    func float32() {
+    func float32() async {
         // .toData
 
         #expect(Float32(0b1).toData(.littleEndian) == Data([0x00, 0x00, 0x80, 0x3F]))
@@ -52,7 +52,7 @@ import Testing
     }
 
     @Test
-    func float32_uInt8Array() {
+    func float32_uInt8Array() async {
         // .toFloat32
 
         #expect(([1, 2, 3, 4] as [UInt8]).toFloat32(from: .littleEndian) == 1.5399896e-36)
@@ -60,7 +60,7 @@ import Testing
     }
 
     @Test
-    func float32_data_pointer() {
+    func float32_data_pointer() async {
         // .toFloat32
 
         let data = Data([1, 2, 3, 4])
@@ -75,7 +75,7 @@ import Testing
     }
 
     @Test
-    func float32_data_subsequence_pointer() {
+    func float32_data_subsequence_pointer() async {
         // .toFloat32
 
         let baseData = Data([99, 1, 2, 3, 4])
@@ -92,7 +92,7 @@ import Testing
     }
 
     @Test
-    func float32_rawPointer() {
+    func float32_rawPointer() async {
         // .toFloat32
 
         let data = Data([1, 2, 3, 4])
@@ -107,7 +107,7 @@ import Testing
     }
 
     @Test
-    func float32_rawPointer_slice() {
+    func float32_rawPointer_slice() async {
         // .toFloat32
 
         let data = Data([99, 1, 2, 3, 4])
@@ -123,7 +123,7 @@ import Testing
     }
 
     @Test
-    func float32_uInt8Pointer_slice() {
+    func float32_uInt8Pointer_slice() async {
         // .toFloat32
 
         let data = Data([99, 1, 2, 3, 4])

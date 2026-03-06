@@ -12,7 +12,7 @@ import Testing
 
 @Suite struct DataProtocol_FixedWidthInteger_Tests {
     @Test
-    func memoryAlignment() {
+    func memoryAlignment() async {
         // test for misaligned raw pointer (memory alignment)
         
         // if the underlying `Data -> T: FixedWidthInteger` method is not properly aligned, this test
@@ -59,7 +59,7 @@ import Testing
     }
     
     @Test
-    func memoryAlignment_uInt8Array() {
+    func memoryAlignment_uInt8Array() async {
         // test for misaligned raw pointer (memory alignment)
         
         // if the underlying `Data -> T: FixedWidthInteger` method is not properly aligned, this test
