@@ -2,11 +2,9 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-data-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%swift-data-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-data-parsing/blob/main/LICENSE)
 
-Multi-platform Swift binary data parsing abstractions, with integer and floating-point conversions to/from binary data with control over byte endianness.
+Multi-platform binary data parsing abstractions for Swift, with integer and floating-point conversions to/from binary data with control over byte endianness.
 
-## Summary
-
-### Data Parsing
+## Data Parsing
 
 Simple and performant binary data parsing abstractions can be used to sequentially parse arbitrary binary data.
 
@@ -97,7 +95,7 @@ let value: String? = try data.withDataParser { parser in
 print(value) // Optional("DATA")
 ```
 
-### Numeric Conversion
+## Numeric Conversion
 
 Numeric types (integers and floating-point) can be easily converted from binary bytes.
 
@@ -140,7 +138,7 @@ UInt16(1).toData(.littleEndian) // Data([0x01, 0x00])?
 UInt16(1).toData(.bigEndian) // Data([0x00, 0x01])?
 ```
 
-### Data Conversion
+## Data Conversion
 
 Various types of binary data can be converted to one another using extension methods.
 
@@ -250,9 +248,7 @@ extension DataProtocol {
 
 ## Documentation
 
-Most methods are implemented as category methods so they are generally discoverable.
-
-All methods are documented with inline help explaining their purpose and basic usage examples.
+No separate documentation is provided at this time. This README serves as a getting started guide, covering most of the core features of the library.
 
 ## Author
 
@@ -280,3 +276,7 @@ Contributions are welcome. Posting in [Discussions](https://github.com/orchetect
 ## Legacy
 
 This repository was extracted from swift-extensions 2.0.0 into its own repository in March of 2026.
+
+## Resources
+
+- If your needs exceed the features provided by list library, Apple's [swift-binary-parsing](https://github.com/apple/swift-binary-parsing) may provide more comprehensive binary parsing capabilities
