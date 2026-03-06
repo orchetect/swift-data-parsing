@@ -71,7 +71,7 @@ import Testing
     func nonAdvancingRead() async throws {
         let data = Data([0x01, 0x02, 0x03, 0x04])
         
-        // .nonAdvancingRead - nil read - return all remaining bytes
+        // non-advancing read - nil read - return all remaining bytes
         try data.withPointerDataParser { parser in
             try #expect(parser.read(advance: false) == [0x01, 0x02, 0x03, 0x04])
             try #expect(parser.read(bytes: 1) == [0x01])
@@ -85,13 +85,13 @@ import Testing
             try #expect(parser.readByte() == data[1])
         }
         
-        // .nonAdvancingRead - read byte counts
+        // non-advancing read - read byte counts
         try data.withPointerDataParser { parser in
             try #expect(parser.read(bytes: 1, advance: false) == [0x01])
             try #expect(parser.read(bytes: 2, advance: false) == [0x01, 0x02])
         }
         
-        // .nonAdvancingRead - read overflow - return nil
+        // non-advancing read - read overflow - return nil
         try data.withPointerDataParser { parser in
             #expect(throws: (any Error).self) { try parser.read(bytes: 5, advance: false) }
             try #expect(parser.read(bytes: 1) == [0x01])
@@ -199,36 +199,36 @@ import Testing
         let rawData = Data([0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04])
         let data = rawData[3 ... 6]
         
-        // .nonAdvancingRead - nil read - return all remaining bytes
+        // non-advancing read - nil read - return all remaining bytes
         try data.withPointerDataParser { parser in
             try #expect(parser.read(advance: false) == [0x01, 0x02, 0x03, 0x04])
             try #expect(parser.read(bytes: 1) == [0x01])
         }
         
-        // .nonAdvancingRead - read byte counts
+        // non-advancing read - read byte counts
         try data.withPointerDataParser { parser in
             try #expect(parser.read(bytes: 1, advance: false) == [0x01])
             try #expect(parser.read(bytes: 2, advance: false) == [0x01, 0x02])
         }
         
-        // .nonAdvancingRead - read overflow - return nil
+        // non-advancing read - read overflow - return nil
         try data.withPointerDataParser { parser in
             #expect(throws: (any Error).self) { try parser.read(bytes: 5, advance: false) }
             try #expect(parser.read(bytes: 1) == [0x01])
         }
         
-        // .nonAdvancingRead - read overflow - return nil
+        // non-advancing read - read overflow - return nil
         data.withPointerDataParser { parser in
             #expect(throws: (any Error).self) { try parser.read(bytes: 8) }
         }
     }
     
     @Test
-    func advanceBy_DataIndicesOffset() async throws {
+    func seekBy_DataIndicesOffset() async throws {
         let rawData = Data([0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04])
         let data = rawData[3 ... 6]
         
-        // advanceBy
+        // seek(by:)
         try data.withPointerDataParser { parser in
             try parser.seek(by: 1)
             try #expect(parser.read(bytes: 1) == [0x02])

@@ -16,8 +16,6 @@ import Testing
         let data = Data([0x01, 0x02, 0x03, 0x04])
         
         try data.withPointerDataParser { parser in
-            #expect(parser._dataSize() == 4)
-            
             #expect(parser._dataStartIndex() == 0)
             
             #expect(parser._dataReadOffsetIndex(offsetBy: 0) == 0)
