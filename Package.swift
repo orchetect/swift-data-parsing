@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "swift-data-parsing",
-    platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6)],
+    platforms: [.macOS(.v10_13), .iOS(.v12), .tvOS(.v12), .watchOS(.v4)],
     products: [
         .library(
             name: "SwiftDataParsing",
