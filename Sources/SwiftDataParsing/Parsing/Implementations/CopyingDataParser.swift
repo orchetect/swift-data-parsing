@@ -47,6 +47,11 @@ public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataParserP
     @usableFromInline
     let base: DataType
 
+    @inlinable
+    public var count: Int {
+        base.count
+    }
+    
     init(data: DataType) {
         base = data
     }
@@ -60,11 +65,6 @@ public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataParserP
     @usableFromInline
     typealias DataIndex = DataType.Index
     
-    @inlinable
-    func _dataSize() -> Int {
-        base.count
-    }
-
     @inlinable
     func _dataStartIndex() -> DataIndex {
         base.startIndex

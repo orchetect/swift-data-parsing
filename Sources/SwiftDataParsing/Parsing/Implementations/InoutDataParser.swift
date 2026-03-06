@@ -49,6 +49,11 @@ public struct InoutDataParser<DataType: DataProtocol>: _DataParserProtocol {
     
     let dataAccess: DataAccess
     
+    @inlinable
+    public var count: Int {
+        withData { $0.count }
+    }
+    
     // MARK: - Init
     
     init(dataAccess: @escaping DataAccess) {
@@ -63,11 +68,6 @@ public struct InoutDataParser<DataType: DataProtocol>: _DataParserProtocol {
     
     @usableFromInline
     typealias DataIndex = DataType.Index
-    
-    @inlinable
-    func _dataSize() -> Int {
-        withData { $0.count }
-    }
     
     @inlinable
     func _dataStartIndex() -> DataIndex {

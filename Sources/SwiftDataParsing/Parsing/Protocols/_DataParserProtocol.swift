@@ -15,9 +15,6 @@ protocol _DataParserProtocol: DataParserProtocol {
     /// Current byte offset.
     var readOffset: Int { get set }
     
-    /// Return the byte count of the data structure.
-    func _dataSize() -> Int
-    
     /// Return the data structure start index.
     func _dataStartIndex() -> DataIndex
     

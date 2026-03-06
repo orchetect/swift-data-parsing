@@ -47,6 +47,11 @@ public struct PointerDataParser<DataType: DataProtocol>: _DataParserProtocol {
     @usableFromInline
     let pointer: UnsafeBufferPointer<UInt8>
     
+    @inlinable
+    public var count: Int {
+        pointer.count
+    }
+    
     // MARK: - Init
     
     init(pointer: UnsafeBufferPointer<UInt8>) {
@@ -61,10 +66,6 @@ public struct PointerDataParser<DataType: DataProtocol>: _DataParserProtocol {
     
     @usableFromInline
     typealias DataIndex = Int
-    
-    func _dataSize() -> Int {
-        pointer.count
-    }
     
     @inlinable
     func _dataStartIndex() -> DataIndex {
