@@ -40,7 +40,7 @@ import protocol Foundation.DataProtocol
 ///     // ...
 /// }
 /// ```
-public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataReaderProtocol {
+public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataParserProtocol {
     public typealias DataElement = DataType.Element
     public typealias DataRange = DataType.SubSequence
 

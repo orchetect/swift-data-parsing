@@ -1,5 +1,5 @@
 //
-//  _DataReaderProtocol.swift
+//  _DataParserProtocol.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -8,8 +8,8 @@
 
 import protocol Foundation.DataProtocol
 
-/// Internal members of ``DataReaderProtocol``.
-protocol _DataReaderProtocol: DataReaderProtocol {
+/// Internal members of ``DataParserProtocol``.
+protocol _DataParserProtocol: DataParserProtocol {
     associatedtype DataIndex: Comparable
     
     /// Current byte offset.
@@ -37,7 +37,7 @@ protocol _DataReaderProtocol: DataReaderProtocol {
 
 // MARK: - Public Implementation
 
-extension _DataReaderProtocol {
+extension _DataParserProtocol {
     public var remainingByteCount: Int { _dataSize() - readOffset }
     
     public mutating func advance(by count: Int) {
@@ -63,7 +63,7 @@ extension _DataReaderProtocol {
 
 // MARK: - Internal Helpers
 
-extension _DataReaderProtocol {
+extension _DataParserProtocol {
     func dataByte() throws(DataParserError) -> DataElement {
         guard remainingByteCount > 0 else { throw .pastEndOfStream }
         let readPosIndex = _dataReadOffsetIndex(offsetBy: 0)

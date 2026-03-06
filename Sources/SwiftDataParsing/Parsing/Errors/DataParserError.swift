@@ -4,7 +4,7 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-/// Error returned by methods in ``DataReaderProtocol``-conforming types.
+/// Error returned by methods in ``DataParserProtocol``-conforming types.
 public enum DataParserError: Error {
     case pastEndOfStream
     case invalidByteCount

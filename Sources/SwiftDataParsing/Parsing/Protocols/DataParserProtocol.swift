@@ -1,5 +1,5 @@
 //
-//  DataReaderProtocol.swift
+//  DataParserProtocol.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -9,7 +9,7 @@
 import protocol Foundation.DataProtocol
 
 /// Protocol describing a common API layer for data reader implementations.
-public protocol DataReaderProtocol {
+public protocol DataParserProtocol {
     associatedtype DataType: DataProtocol
     associatedtype DataRange
     associatedtype DataElement
@@ -43,7 +43,7 @@ public protocol DataReaderProtocol {
 // MARK: - Defaulted Parameters Implementation
 // Since protocols cannot define defaulted parameters of methods, we have to fake defaulted parameters with manual implementation.
 
-extension DataReaderProtocol {
+extension DataParserProtocol {
     /// Return the next byte and increment the read offset.
     ///
     /// If no bytes remain, an error will be returned.
@@ -76,7 +76,7 @@ extension DataReaderProtocol {
 
 // MARK: - API Changes from swift-extensions 2.0.0
 
-extension DataReaderProtocol {
+extension DataParserProtocol {
     @_documentation(visibility: internal)
     @available(*, renamed: "advance(by:)")
     public mutating func advanceBy(_ count: Int) {
