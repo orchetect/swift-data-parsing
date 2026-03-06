@@ -148,14 +148,14 @@ import Testing
     }
     
     @Test
-    func reset() async throws {
+    func seekToStart() async throws {
         let data = Data([0x01, 0x02, 0x03, 0x04])
         
-        // reset
+        // seekToStart
         try data.withCopyingDataParser { parser in
             try #expect(parser.read(bytes: 1) == [0x01])
             try #expect(parser.read(bytes: 2) == [0x02, 0x03])
-            parser.reset()
+            parser.seekToStart()
             try #expect(parser.read(bytes: 1) == [0x01])
         }
     }
@@ -240,11 +240,11 @@ import Testing
         let rawData = Data([0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04])
         let data = rawData[3 ... 6]
         
-        // reset
+        // seekToStart
         try data.withCopyingDataParser { parser in
             try #expect(parser.read(bytes: 1) == [0x01])
             try #expect(parser.read(bytes: 2) == [0x02, 0x03])
-            parser.reset()
+            parser.seekToStart()
             try #expect(parser.read(bytes: 1) == [0x01])
         }
     }
