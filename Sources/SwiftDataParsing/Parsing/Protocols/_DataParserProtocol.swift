@@ -35,8 +35,6 @@ protocol _DataParserProtocol: DataParserProtocol {
 // MARK: - Public Implementation
 
 extension _DataParserProtocol {
-    public var remainingByteCount: Int { _dataSize() - readOffset }
-    
     public mutating func seek(by delta: Int) throws(DataParserError) {
         guard delta != 0 else { return }
         let proposedOffset = readOffset + delta

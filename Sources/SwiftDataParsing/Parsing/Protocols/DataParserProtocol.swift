@@ -48,6 +48,12 @@ public protocol DataParserProtocol {
     mutating func seekToStart()
 }
 
+// MARK: - Defaulted Implementation
+
+extension DataParserProtocol {
+    public var remainingByteCount: Int { count - readOffset }
+}
+
 // MARK: - Defaulted Parameters Implementation
 // Since protocols cannot define defaulted parameters of methods, we have to fake defaulted parameters with manual implementation.
 
