@@ -1,5 +1,5 @@
 //
-//  CopyingDataReader.swift
+//  CopyingDataParser.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -13,20 +13,20 @@ import protocol Foundation.DataProtocol
 ///
 /// > Note:
 /// >
-/// > This type is less performant than the inout/pointer-based data readers, however the return types
+/// > This type is less performant than the inout/pointer-based data parsers, however the return types
 /// > are fully copy-on-write compliant and are safe to use as-is after being passed out of the
-/// > `withCopyingDataReader { reader in }` closure.
+/// > `withCopyingDataParser { parser in }` closure.
 ///
 /// > Note:
 /// >
-/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withPointerDataReader { reader in }`.
+/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withPointerDataParser { parser in }`.
 ///
 /// Usage with `Data`:
 ///
 /// ```swift
 /// let data = Data( ... )
-/// try data.withCopyingDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try data.withCopyingDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
@@ -35,12 +35,12 @@ import protocol Foundation.DataProtocol
 ///
 /// ```swift
 /// let bytes: [UInt8] = [ ... ]
-/// try bytes.withCopyingDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try bytes.withCopyingDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
-public struct CopyingDataReader<DataType: DataProtocol & Sendable>: _DataReaderProtocol {
+public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataReaderProtocol {
     public typealias DataElement = DataType.Element
     public typealias DataRange = DataType.SubSequence
 
@@ -89,7 +89,7 @@ public struct CopyingDataReader<DataType: DataProtocol & Sendable>: _DataReaderP
     }
 }
 
-extension CopyingDataReader: Sendable { }
+extension CopyingDataParser: Sendable { }
 
 // MARK: - DataProtocol Extensions
 
@@ -97,31 +97,31 @@ extension CopyingDataReader: Sendable { }
 // individual implementations on the known concrete types.
 
 extension DataProtocol {
-    /// Accesses the data by providing a ``CopyingDataReader`` instance to a closure.
+    /// Accesses the data by providing a ``CopyingDataParser`` instance to a closure.
     ///
     /// > Note:
     /// >
-    /// > This type is less performant than the inout/pointer-based data readers, however the return types
+    /// > This type is less performant than the inout/pointer-based data parsers, however the return types
     /// > are fully copy-on-write compliant and are safe to use as-is after being passed out of the
-    /// > `withCopyingDataReader { reader in }` closure.
+    /// > `withCopyingDataParser { parser in }` closure.
     @discardableResult
-    public func withCopyingDataReader<T, E>(
-        _ block: (_ reader: inout CopyingDataReader<Self>) throws(E) -> T
+    public func withCopyingDataParser<T, E>(
+        _ block: (_ parser: inout CopyingDataParser<Self>) throws(E) -> T
     ) throws(E) -> T {
-        var reader = CopyingDataReader(data: self)
-        return try block(&reader)
+        var parser = CopyingDataParser(data: self)
+        return try block(&parser)
     }
 }
 
 // MARK: - API Changes from swift-extensions 2.0.0
 
 @_documentation(visibility: internal)
-@available(*, renamed: "CopyingDataReader")
-public typealias DataReader = CopyingDataReader
+@available(*, renamed: "CopyingDataParser")
+public typealias DataReader = CopyingDataParser
 
 extension DataReader where DataType == Data {
     @_documentation(visibility: internal)
-    @available(*, deprecated, message: "Data readers are no longer instanced directly. Instead, call `data.withDataReader { reader in }`.")
+    @available(*, deprecated, message: "Data parsers are no longer instanced directly. Instead, call `data.withDataParser { parser in }`.")
     public init(_ data: Data) {
         self.init(data: data)
     }
