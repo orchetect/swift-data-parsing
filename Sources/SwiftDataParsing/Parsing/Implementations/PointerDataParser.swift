@@ -47,15 +47,14 @@ public struct PointerDataParser<DataType: DataProtocol>: _DataParserProtocol {
     @usableFromInline
     let pointer: UnsafeBufferPointer<UInt8>
     
-    @inlinable
-    public var count: Int {
-        pointer.count
-    }
+    @inline(__always)
+    public var count: Int
     
     // MARK: - Init
     
     init(pointer: UnsafeBufferPointer<UInt8>) {
         self.pointer = pointer
+        count = pointer.count
     }
     
     // MARK: - State

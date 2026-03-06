@@ -47,13 +47,12 @@ public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataParserP
     @usableFromInline
     let base: DataType
 
-    @inlinable
-    public var count: Int {
-        base.count
-    }
+    @inline(__always)
+    public let count: Int
     
     init(data: DataType) {
         base = data
+        count = base.count
     }
 
     // MARK: - State

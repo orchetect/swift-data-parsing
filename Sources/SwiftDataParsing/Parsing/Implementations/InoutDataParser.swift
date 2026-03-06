@@ -49,15 +49,17 @@ public struct InoutDataParser<DataType: DataProtocol>: _DataParserProtocol {
     
     let dataAccess: DataAccess
     
-    @inlinable
-    public var count: Int {
-        withData { $0.count }
-    }
+    @inline(__always)
+    public let count: Int
     
     // MARK: - Init
     
     init(dataAccess: @escaping DataAccess) {
         self.dataAccess = dataAccess
+        
+        var count: Int!
+        dataAccess { count = $0.count }
+        self.count = count
     }
     
     // MARK: - State

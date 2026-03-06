@@ -15,6 +15,7 @@ public protocol DataParserProtocol {
     associatedtype DataElement
     
     /// Return the byte count of the data structure.
+    @inline(__always)
     var count: Int { get }
     
     /// Current byte index of read offset (byte position).
