@@ -10,7 +10,7 @@ import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
 /// Protocol adopted by data types supported by ``DataReaderProtocol``.
-public protocol DataReaderDataProtocol where Self: DataProtocol, SubSequence: DataReaderDataProtocol {
+protocol DataReaderDataProtocol where Self: DataProtocol, SubSequence: DataReaderDataProtocol {
     associatedtype SubSequence
     
     // Restated from DataProtocol concrete types
