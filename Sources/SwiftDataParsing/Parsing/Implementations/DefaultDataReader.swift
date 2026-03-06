@@ -9,18 +9,18 @@
 import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
-/// Alias to the most performant data reader for the current platform.
-public typealias DefaultDataReader = PointerDataReader
+/// Alias to the most performant binary data parser for the current platform.
+public typealias DefaultDataReader = PointerDataParser
 
 // MARK: - DataReader Extensions
 
 extension DataProtocol {
-    /// Accesses the data using the most performant data reader for the current platform.
+    /// Utility to facilitate sequential reading of bytes using the most performant binary data parser for the current platform.
     @_disfavoredOverload @discardableResult
     public func withDataReader<T, E>(
-        _ block: (_ reader: inout DefaultDataReader<Self>) throws(E) -> T
+        _ block: (_ parser: inout DefaultDataReader<Self>) throws(E) -> T
     ) throws(E) -> T {
-        try withPointerDataReader(block)
+        try withPointerDataParser(block)
     }
 }
 

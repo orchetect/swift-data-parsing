@@ -1,5 +1,5 @@
 //
-//  PointerDataReader.swift
+//  PointerDataParser.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -11,7 +11,7 @@ import protocol Foundation.DataProtocol
 
 /// Utility to facilitate sequential reading of bytes.
 ///
-/// > Warning: Do not pass pointers returned from reader methods outside of the `withPointerDataReader { reader in }` closure.
+/// > Warning: Do not pass pointers returned from parser methods outside of the `withPointerDataParser { parser in }` closure.
 /// >
 /// > Any data needed to be passed outside of the closure must be copied first.
 /// >
@@ -19,14 +19,14 @@ import protocol Foundation.DataProtocol
 ///
 /// > Note:
 /// >
-/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withPointerDataReader { reader in }`.
+/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withPointerDataParser { parser in }`.
 ///
 /// Usage with `Data`:
 ///
 /// ```swift
 /// let data = Data( ... )
-/// try data.withPointerDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try data.withPointerDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
@@ -35,12 +35,12 @@ import protocol Foundation.DataProtocol
 ///
 /// ```swift
 /// let bytes: [UInt8] = [ ... ]
-/// try bytes.withPointerDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try bytes.withPointerDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
-public struct PointerDataReader<DataType: DataProtocol>: _DataReaderProtocol {
+public struct PointerDataParser<DataType: DataProtocol>: _DataReaderProtocol {
     public typealias DataElement = DataType.Element
     public typealias DataRange = UnsafeBufferPointer<UInt8>
     
@@ -93,16 +93,16 @@ public struct PointerDataReader<DataType: DataProtocol>: _DataReaderProtocol {
 // MARK: - DataProtocol Extensions
 
 extension DataProtocol {
-    /// Accesses the data by way of unsafe pointer access by providing a ``PointerDataReader`` instance to a closure.
+    /// Accesses the data by way of unsafe pointer access by providing a ``PointerDataParser`` instance to a closure.
     ///
-    /// > Warning: Do not pass pointers returned from reader methods outside of the `withPointerDataReader { reader in }` closure.
+    /// > Warning: Do not pass pointers returned from parser methods outside of the `withPointerDataParser { parser in }` closure.
     /// >
     /// > Any data needed to be passed outside of the closure must be copied first.
     /// >
     /// > This can be done by constructing a `Data(pointer)` or `[UInt8](pointer)` instance from the `pointer`.
     @discardableResult
-    public func withPointerDataReader<T, E>(
-        _ block: (_ reader: inout PointerDataReader<Self>) throws(E) -> T
+    public func withPointerDataParser<T, E>(
+        _ block: (_ parser: inout PointerDataParser<Self>) throws(E) -> T
     ) throws(E) -> T {
         // since `withUnsafe... { }` does not work with typed error throws, we have to use a workaround to get the typed error out
         var result: Result<T, E>!
@@ -111,9 +111,9 @@ extension DataProtocol {
         if let self = self as? any DataReaderDataProtocol {
             self.withUnsafeBytes { ptr in
                 let boundPtr = ptr.assumingMemoryBound(to: UInt8.self)
-                var reader = PointerDataReader<Self>(pointer: boundPtr)
+                var parser = PointerDataParser<Self>(pointer: boundPtr)
                 do throws(E) {
-                    let value = try block(&reader)
+                    let value = try block(&parser)
                     result = .success(value)
                 } catch {
                     result = .failure(error)
@@ -121,9 +121,9 @@ extension DataProtocol {
             }
         } else {
             if withContiguousStorageIfAvailable({ ptr in
-                var reader = PointerDataReader<Self>(pointer: ptr)
+                var parser = PointerDataParser<Self>(pointer: ptr)
                 do throws(E) {
-                    let value = try block(&reader)
+                    let value = try block(&parser)
                     result = .success(value)
                 } catch {
                     result = .failure(error)
@@ -132,9 +132,9 @@ extension DataProtocol {
                 // TODO: this is not tested and may not work with unhandled concrete DataProtocol types
                 withUnsafeBytes(of: self) { ptr in
                     let boundPtr = ptr.assumingMemoryBound(to: UInt8.self)
-                    var reader = PointerDataReader<Self>(pointer: boundPtr)
+                    var parser = PointerDataParser<Self>(pointer: boundPtr)
                     do throws(E) {
-                        let value = try block(&reader)
+                        let value = try block(&parser)
                         result = .success(value)
                     } catch {
                         result = .failure(error)
