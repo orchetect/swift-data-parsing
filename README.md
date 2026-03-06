@@ -145,11 +145,11 @@ UInt16(1).toData(.bigEndian) // Data([0x00, 0x01])?
 Various types of binary data can be converted to one another using extension methods.
 
 ```swift
-// Data -> [UIn8]
+// Data -> [UInt8]
 let data = Data([0x01, 0x02])
 let bytes = data.toUInt8Bytes() // as [UInt8]
 
-// [UIn8] -> Data
+// [UInt8] -> Data
 let bytes: [UInt8] = [0x01, 0x02]
 let data = bytes.toData() // as Data
 ```
