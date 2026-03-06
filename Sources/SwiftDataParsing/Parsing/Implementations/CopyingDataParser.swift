@@ -76,15 +76,15 @@ public struct CopyingDataParser<DataType: DataProtocol & Sendable>: _DataReaderP
     }
 
     @inlinable
-    func _dataByte(at dataIndex: DataIndex) throws(DataReaderError) -> DataElement {
+    func _dataByte(at dataIndex: DataIndex) throws(DataParserError) -> DataElement {
         base[dataIndex]
     }
 
-    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataParserError) -> DataRange {
         base[dataIndexRange]
     }
 
-    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataParserError) -> DataRange {
         base[dataIndexRange]
     }
 }

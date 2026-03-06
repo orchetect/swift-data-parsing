@@ -1,17 +1,17 @@
 //
-//  DataReaderError.swift
+//  DataParserError.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 /// Error returned by methods in ``DataReaderProtocol``-conforming types.
-public enum DataReaderError: Error {
+public enum DataParserError: Error {
     case pastEndOfStream
     case invalidByteCount
 }
 
-extension DataReaderError: Equatable { }
+extension DataParserError: Equatable { }
 
-extension DataReaderError: Hashable { }
+extension DataParserError: Hashable { }
 
-extension DataReaderError: Sendable { }
+extension DataParserError: Sendable { }

@@ -80,15 +80,15 @@ public struct InoutDataParser<DataType: DataProtocol>: _DataReaderProtocol {
     }
     
     @inlinable
-    func _dataByte(at dataIndex: DataIndex) throws(DataReaderError) -> DataElement {
+    func _dataByte(at dataIndex: DataIndex) throws(DataParserError) -> DataElement {
         withData { $0[dataIndex] }
     }
     
-    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataParserError) -> DataRange {
         withData { $0[dataIndexRange] }
     }
     
-    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataParserError) -> DataRange {
         withData { $0[dataIndexRange] }
     }
     
@@ -153,8 +153,8 @@ extension PassiveDataReader {
     }
     
     @_documentation(visibility: internal)
-    @available(*, renamed: "DataReaderError")
-    public typealias ReadError = DataReaderError
+    @available(*, renamed: "DataParserError")
+    public typealias ReadError = DataParserError
 }
 
 #endif

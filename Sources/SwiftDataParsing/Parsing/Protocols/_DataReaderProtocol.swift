@@ -26,13 +26,13 @@ protocol _DataReaderProtocol: DataReaderProtocol {
     func _dataReadOffsetIndex(offsetBy offset: Int) -> DataIndex
     
     /// Return the data byte at the given data structure index.
-    func _dataByte(at dataIndex: DataIndex) throws(DataReaderError) -> DataElement
+    func _dataByte(at dataIndex: DataIndex) throws(DataParserError) -> DataElement
     
     /// Return the data bytes in the given data structure index range.
-    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataReaderError) -> DataRange
+    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataParserError) -> DataRange
     
     /// Return the data bytes in the given data structure index range.
-    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataReaderError) -> DataRange
+    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataParserError) -> DataRange
 }
 
 // MARK: - Public Implementation
@@ -44,13 +44,13 @@ extension _DataReaderProtocol {
         readOffset += count
     }
     
-    public mutating func readByte(advance: Bool) throws(DataReaderError) -> DataElement {
+    public mutating func readByte(advance: Bool) throws(DataParserError) -> DataElement {
         let d = try dataByte()
         defer { if advance { readOffset += 1 } }
         return d
     }
     
-    public mutating func read(bytes count: Int?, advance: Bool) throws(DataReaderError) -> DataRange {
+    public mutating func read(bytes count: Int?, advance: Bool) throws(DataParserError) -> DataRange {
         let d = try data(bytes: count)
         defer { if advance { readOffset += d.advanceCount } }
         return d.data
@@ -64,13 +64,13 @@ extension _DataReaderProtocol {
 // MARK: - Internal Helpers
 
 extension _DataReaderProtocol {
-    func dataByte() throws(DataReaderError) -> DataElement {
+    func dataByte() throws(DataParserError) -> DataElement {
         guard remainingByteCount > 0 else { throw .pastEndOfStream }
         let readPosIndex = _dataReadOffsetIndex(offsetBy: 0)
         return try _dataByte(at: readPosIndex)
     }
     
-    func data(bytes count: Int? = nil) throws(DataReaderError) -> (data: DataRange, advanceCount: Int) {
+    func data(bytes count: Int? = nil) throws(DataParserError) -> (data: DataRange, advanceCount: Int) {
         if count == 0 {
             // return empty bytes, but as a SubSequence
             let index = _dataReadOffsetIndex(offsetBy: 0)

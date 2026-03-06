@@ -77,15 +77,15 @@ public struct PointerDataParser<DataType: DataProtocol>: _DataReaderProtocol {
     }
     
     @inlinable
-    func _dataByte(at dataIndex: DataIndex) throws(DataReaderError) -> DataElement {
+    func _dataByte(at dataIndex: DataIndex) throws(DataParserError) -> DataElement {
         pointer[dataIndex]
     }
     
-    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataParserError) -> DataRange {
         pointer.extracting(dataIndexRange)
     }
     
-    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataReaderError) -> DataRange {
+    func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataParserError) -> DataRange {
         pointer.extracting(dataIndexRange)
     }
 }
