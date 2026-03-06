@@ -18,13 +18,4 @@ extension DataEndianness {
             : .littleEndian
 }
 
-// MARK: - API Changes from swift-extensions 2.0.0
-
-extension DataEndianness {
-    @_documentation(visibility: internal)
-    @available(*, deprecated, renamed: "platformDefault")
-    @inline(__always)
-    public static var system: NumberEndianness { platformDefault }
-}
-
 #endif

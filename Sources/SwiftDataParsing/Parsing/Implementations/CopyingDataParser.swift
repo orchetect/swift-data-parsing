@@ -113,18 +113,4 @@ extension DataProtocol {
     }
 }
 
-// MARK: - API Changes from swift-extensions 2.0.0
-
-@_documentation(visibility: internal)
-@available(*, renamed: "CopyingDataParser")
-public typealias DataReader = CopyingDataParser
-
-extension DataReader where DataType == Data {
-    @_documentation(visibility: internal)
-    @available(*, deprecated, message: "Data parsers are no longer instanced directly. Instead, call `data.withDataParser { parser in }`.")
-    public init(_ data: Data) {
-        self.init(data: data)
-    }
-}
-
 #endif

@@ -74,32 +74,4 @@ extension DataParserProtocol {
     }
 }
 
-// MARK: - API Changes from swift-extensions 2.0.0
-
-extension DataParserProtocol {
-    @_documentation(visibility: internal)
-    @available(*, renamed: "advance(by:)")
-    public mutating func advanceBy(_ count: Int) {
-        advance(by: count)
-    }
-    
-    @_documentation(visibility: internal)
-    @available(*, renamed: "readByte(advance:)")
-    public mutating func nonAdvancingReadByte() throws(DataParserError) -> DataElement {
-        try readByte(advance: false)
-    }
-    
-    @_documentation(visibility: internal)
-    @available(*, renamed: "read(advance:)")
-    public mutating func nonAdvancingRead() throws(DataParserError) -> DataRange {
-        try read(advance: false)
-    }
-    
-    @_documentation(visibility: internal)
-    @available(*, renamed: "read(bytes:advance:)")
-    public mutating func nonAdvancingRead(bytes count: Int) throws(DataParserError) -> DataRange {
-        try read(bytes: count, advance: false)
-    }
-}
-
 #endif

@@ -26,9 +26,3 @@ extension DataEndianness: Equatable { }
 extension DataEndianness: Hashable { }
 
 extension DataEndianness: Sendable { }
-
-// MARK: - API Changes from swift-extensions 2.0.0
-
-@_documentation(visibility: internal)
-@available(*, deprecated, renamed: "DataEndianness")
-public typealias NumberEndianness = DataEndianness

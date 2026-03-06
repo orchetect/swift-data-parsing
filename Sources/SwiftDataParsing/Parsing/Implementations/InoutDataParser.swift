@@ -135,26 +135,4 @@ extension DataProtocol {
     }
 }
 
-// MARK: - API Changes from swift-extensions 2.0.0
-
-@_documentation(visibility: internal)
-@available(*, renamed: "InoutDataParser")
-public typealias PassiveDataReader = InoutDataParser
-
-extension PassiveDataReader {
-    @_documentation(visibility: internal)
-    @available(*, renamed: "DataType")
-    public typealias D = DataType
-    
-    @_documentation(visibility: internal)
-    @available(*, deprecated, message: "Data parsers are no longer instanced directly. Instead, call `data.withDataReader { parser in }`.")
-    public init(_ closure: @escaping (_ block: (inout DataType) -> Void) -> Void) {
-        self.dataAccess = closure
-    }
-    
-    @_documentation(visibility: internal)
-    @available(*, renamed: "DataParserError")
-    public typealias ReadError = DataParserError
-}
-
 #endif
