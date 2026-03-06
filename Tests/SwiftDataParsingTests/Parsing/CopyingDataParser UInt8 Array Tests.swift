@@ -102,13 +102,13 @@ import Testing
     func seekBy() async throws {
         let data: [UInt8] = [0x01, 0x02, 0x03, 0x04]
         
-        // seekBy
+        // .seek(by:)
         try data.withCopyingDataParser { parser in
             try parser.seek(by: 1)
-            try #expect(parser.read(bytes: 1, advance: false) == [0x02])
+            try #expect(parser.readByte(advance: false) == 0x02)
             try parser.seek(by: 2)
-            try #expect(parser.read(bytes: 1) == [0x04])
-            #expect(parser.readOffset == 4) // past end
+            try #expect(parser.readByte() == 0x04)
+            #expect(parser.readOffset == 4) // one-past-end
             try parser.seek(by: 0)
             #expect(parser.readOffset == 4)
             try parser.seek(by: -1)
@@ -118,6 +118,32 @@ import Testing
             #expect(throws: DataParserError.pastStartOfStream) { try parser.seek(by: -1) }
             try parser.seek(by: 4)
             #expect(throws: DataParserError.pastEndOfStream) { try parser.seek(by: 1) }
+        }
+    }
+    
+    @Test
+    func seekTo() async throws {
+        let data: [UInt8] = [0x01, 0x02, 0x03, 0x04]
+        
+        // .seek(to:)
+        try data.withCopyingDataParser { parser in
+            try parser.seek(to: 0)
+            #expect(parser.readOffset == 0)
+            try #expect(parser.readByte(advance: false) == 0x01)
+            
+            try parser.seek(to: 3)
+            #expect(parser.readOffset == 3)
+            try #expect(parser.readByte(advance: false) == 0x04)
+            
+            try parser.seek(to: 4) // one-past-end
+            #expect(parser.readOffset == 4)
+            #expect(throws: DataParserError.pastEndOfStream) { try parser.readByte(advance: false) }
+            
+            try parser.seek(to: 0)
+            #expect(parser.readOffset == 0)
+            try #expect(parser.readByte(advance: false) == 0x01)
+            
+            #expect(throws: DataParserError.pastStartOfStream) { try parser.seek(to: -1) }
         }
     }
     
