@@ -73,39 +73,51 @@ import Testing
         
         // .nonAdvancingRead - nil read - return all remaining bytes
         try data.withInoutDataParser { parser in
-            try #expect(parser.nonAdvancingRead() == [0x01, 0x02, 0x03, 0x04])
+            try #expect(parser.read(advance: false) == [0x01, 0x02, 0x03, 0x04])
             try #expect(parser.read(bytes: 1) == [0x01])
         }
         
         // single bytes
         try data.withInoutDataParser { parser in
-            try #expect(parser.nonAdvancingReadByte() == 0x01)
-            try #expect(parser.nonAdvancingReadByte() == 0x01)
+            try #expect(parser.readByte(advance: false) == 0x01)
+            try #expect(parser.readByte(advance: false) == 0x01)
             try #expect(parser.readByte() == 0x01)
             try #expect(parser.readByte() == 0x02)
         }
         
         // .nonAdvancingRead - read byte counts
         try data.withInoutDataParser { parser in
-            try #expect(parser.nonAdvancingRead(bytes: 1) == [0x01])
-            try #expect(parser.nonAdvancingRead(bytes: 2) == [0x01, 0x02])
+            try #expect(parser.read(bytes: 1, advance: false) == [0x01])
+            try #expect(parser.read(bytes: 2, advance: false) == [0x01, 0x02])
         }
         
         // .nonAdvancingRead - read overflow - return nil
         try data.withInoutDataParser { parser in
-            #expect(throws: (any Error).self) { try parser.nonAdvancingRead(bytes: 5) }
+            #expect(throws: (any Error).self) { try parser.read(bytes: 5, advance: false) }
             try #expect(parser.read(bytes: 1) == [0x01])
         }
     }
     
     @Test
-    func advanceBy() async throws {
+    func seekBy() async throws {
         var data: [UInt8] = [0x01, 0x02, 0x03, 0x04]
         
-        // advanceBy
+        // seekBy
         try data.withInoutDataParser { parser in
-            parser.advanceBy(1)
-            try #expect(parser.read(bytes: 1) == [0x02])
+            try parser.seek(by: 1)
+            try #expect(parser.read(bytes: 1, advance: false) == [0x02])
+            try parser.seek(by: 2)
+            try #expect(parser.read(bytes: 1) == [0x04])
+            #expect(parser.readOffset == 4) // past end
+            try parser.seek(by: 0)
+            #expect(parser.readOffset == 4)
+            try parser.seek(by: -1)
+            #expect(parser.readOffset == 3)
+            try parser.seek(by: -3)
+            #expect(parser.readOffset == 0)
+            #expect(throws: DataParserError.pastStartOfStream) { try parser.seek(by: -1) }
+            try parser.seek(by: 4)
+            #expect(throws: DataParserError.pastEndOfStream) { try parser.seek(by: 1) }
         }
     }
     
@@ -163,19 +175,19 @@ import Testing
         
         // .nonAdvancingRead - nil read - return all remaining bytes
         try data.withInoutDataParser { parser in
-            try #expect(parser.nonAdvancingRead() == [0x01, 0x02, 0x03, 0x04])
+            try #expect(parser.read(advance: false) == [0x01, 0x02, 0x03, 0x04])
             try #expect(parser.read(bytes: 1) == [0x01])
         }
         
         // .nonAdvancingRead - read byte counts
         try data.withInoutDataParser { parser in
-            try #expect(parser.nonAdvancingRead(bytes: 1) == [0x01])
-            try #expect(parser.nonAdvancingRead(bytes: 2) == [0x01, 0x02])
+            try #expect(parser.read(bytes: 1, advance: false) == [0x01])
+            try #expect(parser.read(bytes: 2, advance: false) == [0x01, 0x02])
         }
         
         // .nonAdvancingRead - read overflow - return nil
         try data.withInoutDataParser { parser in
-            #expect(throws: (any Error).self) { try parser.nonAdvancingRead(bytes: 5) }
+            #expect(throws: (any Error).self) { try parser.read(bytes: 5, advance: false) }
             try #expect(parser.read(bytes: 1) == [0x01])
         }
         
@@ -192,7 +204,7 @@ import Testing
         
         // advanceBy
         try data.withInoutDataParser { parser in
-            parser.advanceBy(1)
+            try parser.seek(by: 1)
             try #expect(parser.read(bytes: 1) == [0x02])
         }
     }
