@@ -18,6 +18,8 @@ public protocol DataParserProtocol {
     var count: Int { get }
     
     /// Current byte index of read offset (byte position).
+    ///
+    /// This property is read-only. To manually seek by/to offsets, use the `seek(by:)` or `seek(to:)` methods.
     var readOffset: Int { get }
     
     /// Returns number of available remaining bytes.
