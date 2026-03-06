@@ -35,17 +35,8 @@ protocol _DataParserProtocol: DataParserProtocol {
 // MARK: - Public Implementation
 
 extension _DataParserProtocol {
-    public mutating func seek(by delta: Int) throws(DataParserError) {
-        guard delta != 0 else { return }
-        let proposedOffset = readOffset + delta
-        guard proposedOffset > -1 else { throw .pastStartOfStream }
-        guard proposedOffset <= count else { throw .pastEndOfStream }
-        readOffset = proposedOffset
-    }
-    
-    public mutating func seek(to offset: Int) throws(DataParserError) {
-        guard offset > -1 else { throw .pastStartOfStream }
-        guard offset <= count else { throw .pastEndOfStream }
+    @inline(__always)
+    public mutating func seek(unsafeTo offset: Int) {
         readOffset = offset
     }
     
@@ -59,10 +50,6 @@ extension _DataParserProtocol {
         let d = try data(bytes: count)
         defer { if advance { readOffset += d.advanceCount } }
         return d.data
-    }
-    
-    public mutating func seekToStart() {
-        readOffset = 0
     }
 }
 

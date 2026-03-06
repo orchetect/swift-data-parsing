@@ -33,6 +33,10 @@ public protocol DataParserProtocol {
     /// If the resulting read offset is past the start or past one-past-the-end, an error is thrown.
     mutating func seek(to offset: Int) throws(DataParserError)
     
+    /// Move the current read offset to the specified index, without bounds checking.
+    @inline(__always)
+    mutating func seek(unsafeTo offset: Int)
+    
     /// Return the next byte and optionally increment the read offset.
     ///
     /// If no bytes remain, an error will be thrown.
@@ -45,6 +49,7 @@ public protocol DataParserProtocol {
     mutating func read(bytes count: Int?, advance: Bool) throws(DataParserError) -> DataRange
     
     /// Resets read offset back to byte index 0.
+    @inline(__always)
     mutating func seekToStart()
 }
 
@@ -52,6 +57,25 @@ public protocol DataParserProtocol {
 
 extension DataParserProtocol {
     public var remainingByteCount: Int { count - readOffset }
+    
+    public mutating func seek(by delta: Int) throws(DataParserError) {
+        guard delta != 0 else { return }
+        let proposedOffset = readOffset + delta
+        guard proposedOffset > -1 else { throw .pastStartOfStream }
+        guard proposedOffset <= count else { throw .pastEndOfStream }
+        seek(unsafeTo: proposedOffset)
+    }
+    
+    public mutating func seek(to offset: Int) throws(DataParserError) {
+        guard offset > -1 else { throw .pastStartOfStream }
+        guard offset <= count else { throw .pastEndOfStream }
+        seek(unsafeTo: offset)
+    }
+    
+    @inline(__always)
+    public mutating func seekToStart() {
+        seek(unsafeTo: 0)
+    }
 }
 
 // MARK: - Defaulted Parameters Implementation
