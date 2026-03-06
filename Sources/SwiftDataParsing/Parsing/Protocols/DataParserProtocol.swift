@@ -8,7 +8,7 @@
 
 import protocol Foundation.DataProtocol
 
-/// Protocol describing a common API layer for data reader implementations.
+/// Protocol describing a common API layer for binary data parser implementations.
 public protocol DataParserProtocol {
     associatedtype DataType: DataProtocol
     associatedtype DataRange

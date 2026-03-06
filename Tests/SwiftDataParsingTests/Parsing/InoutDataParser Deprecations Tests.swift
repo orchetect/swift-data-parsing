@@ -17,7 +17,7 @@ import Testing
     func deprecationTest() async throws {
         var data = Data([0x01, 0x02])
         
-        // old type name, expect a fixit to show on this line to use new data reader API
+        // old type name, expect a fixit to show on this line to use new data parser API
         var parser = PassiveDataReader { $0(&data) }
         
         #expect(try parser.readByte() == 0x01)
