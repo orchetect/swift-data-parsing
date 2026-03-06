@@ -6,8 +6,9 @@
 
 /// Error returned by methods in ``DataParserProtocol``-conforming types.
 public enum DataParserError: Error {
-    case pastEndOfStream
     case invalidByteCount
+    case pastStartOfStream
+    case pastEndOfStream
 }
 
 extension DataParserError: Equatable { }

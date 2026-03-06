@@ -20,10 +20,8 @@ public protocol DataParserProtocol {
     /// Returns number of available remaining bytes.
     var remainingByteCount: Int { get }
     
-    /// Manually advance by _n_ number of bytes from current read offset.
-    /// Note that this method is unchecked which may result in an offset beyond the end of the data
-    /// stream.
-    mutating func advance(by count: Int)
+    /// Advance (positive integer) or recede (negative integer) by the specified number of bytes from current read offset.
+    mutating func seek(by delta: Int) throws(DataParserError)
     
     /// Return the next byte and optionally increment the read offset.
     ///

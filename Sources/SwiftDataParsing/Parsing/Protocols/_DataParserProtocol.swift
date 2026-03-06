@@ -40,8 +40,12 @@ protocol _DataParserProtocol: DataParserProtocol {
 extension _DataParserProtocol {
     public var remainingByteCount: Int { _dataSize() - readOffset }
     
-    public mutating func advance(by count: Int) {
-        readOffset += count
+    public mutating func seek(by delta: Int) throws(DataParserError) {
+        guard delta != 0 else { return }
+        let proposedOffset = readOffset + delta
+        guard proposedOffset > -1 else { throw .pastStartOfStream }
+        guard proposedOffset <= _dataSize() else { throw .pastEndOfStream }
+        readOffset = proposedOffset
     }
     
     public mutating func readByte(advance: Bool) throws(DataParserError) -> DataElement {
