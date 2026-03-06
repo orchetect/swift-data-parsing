@@ -48,6 +48,12 @@ extension _DataParserProtocol {
         readOffset = proposedOffset
     }
     
+    public mutating func seek(to offset: Int) throws(DataParserError) {
+        guard offset > -1 else { throw .pastStartOfStream }
+        guard offset <= _dataSize() else { throw .pastEndOfStream }
+        readOffset = offset
+    }
+    
     public mutating func readByte(advance: Bool) throws(DataParserError) -> DataElement {
         let d = try dataByte()
         defer { if advance { readOffset += 1 } }

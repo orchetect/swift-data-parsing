@@ -25,6 +25,11 @@ public protocol DataParserProtocol {
     /// If the resulting read offset is past the start or past one-past-the-end, an error is thrown.
     mutating func seek(by delta: Int) throws(DataParserError)
     
+    /// Move the current read offset to the specified index.
+    ///
+    /// If the resulting read offset is past the start or past one-past-the-end, an error is thrown.
+    mutating func seek(to offset: Int) throws(DataParserError)
+    
     /// Return the next byte and optionally increment the read offset.
     ///
     /// If no bytes remain, an error will be thrown.
