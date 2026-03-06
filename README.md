@@ -43,8 +43,17 @@ try data.withDataParser { parser in
 }
 
 try data.withDataParser { parser in
-    parser.advanceBy(4) // manually advance offset without reading the bytes
-    let a = try parser.readByte() // 0x05 as UInt8
+    try parser.seek(by: 4) // advance offset without reading the bytes
+    try parser.seek(by: -3) // recede offset without reading the bytes
+    let a = try parser.readByte() // 0x02 as UInt8
+}
+
+try data.withDataParser { parser in
+    try parser.seek(to: 3) // set the absolute read offset
+    let a = try parser.readByte() // 0x04 as UInt8
+    
+    parser.seek(unsafeTo: 100) // set the absolute read offset without bounds checking
+    let b = try parser.readByte() // throws error; past end of data
 }
 
 try data.withDataParser { parser in
@@ -196,14 +205,15 @@ public struct CustomDataParser<DataType: DataProtocol & Sendable>: DataParserPro
     
     init(data: DataType) {
         self.data = data
+        count = data.count
     }
     
-    public var remainingByteCount: Int {
-        data.count - readOffset
-    }
+    @inline(__always)
+    public let count: Int
     
-    public mutating func advance(by count: Int) {
-        readOffset += count
+    @inline(__always)
+    public mutating func seek(unsafeTo offset: Int) {
+        readOffset = offset
     }
     
     public mutating func readByte(advance: Bool) throws(DataParserError) -> DataElement {
@@ -222,10 +232,6 @@ public struct CustomDataParser<DataType: DataProtocol & Sendable>: DataParserPro
         if advance { readOffset += count }
         let data = data[startIndex ..< endIndex]
         return data
-    }
-    
-    public mutating func reset() {
-        readOffset = 0
     }
 }
 
