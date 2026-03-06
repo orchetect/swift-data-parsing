@@ -1,5 +1,5 @@
 //
-//  InoutDataReader.swift
+//  InoutDataParser.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -13,20 +13,20 @@ import protocol Foundation.DataProtocol
 ///
 /// > Note:
 /// >
-/// > This type is less performant than the inout/pointer-based data readers, however the return types
+/// > This type is less performant than the inout/pointer-based data parsers, however the return types
 /// > are fully copy-on-write compliant and are safe to use as-is after being passed out of the
-/// >`withCopyingDataReader { reader in }` closure.
+/// >`withInoutDataParser { parser in }` closure.
 ///
 /// > Note:
 /// >
-/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withPointerDataReader { reader in }`.
+/// > This type is not meant to be initialized directly, but rather used within a call to `<data>.withInoutDataParser { parser in }`.
 ///
 /// Usage with `Data`:
 ///
 /// ```swift
 /// let data = Data( ... )
-/// try data.withInoutDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try data.withInoutDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
@@ -35,12 +35,12 @@ import protocol Foundation.DataProtocol
 ///
 /// ```swift
 /// let bytes: [UInt8] = [ ... ]
-/// try bytes.withInoutDataReader { reader in
-///     let bytes = try reader.read(bytes: 4)
+/// try bytes.withInoutDataParser { parser in
+///     let bytes = try parser.read(bytes: 4)
 ///     // ...
 /// }
 /// ```
-public struct InoutDataReader<DataType: DataProtocol>: _DataReaderProtocol {
+public struct InoutDataParser<DataType: DataProtocol>: _DataReaderProtocol {
     public typealias DataElement = DataType.Element
     public typealias DataRange = DataType.SubSequence
     
@@ -108,24 +108,24 @@ public struct InoutDataReader<DataType: DataProtocol>: _DataReaderProtocol {
 // individual implementations on the known concrete types.
 
 extension DataProtocol {
-    /// Accesses the data by providing an ``InoutDataReader`` instance to a closure.
+    /// Accesses the data by providing an ``InoutDataParser`` instance to a closure.
     ///
     /// > Note:
     /// >
-    /// > This type is less performant than the inout/pointer-based data readers, however the return types
+    /// > This type is less performant than the inout/pointer-based data parsers, however the return types
     /// > are fully copy-on-write compliant and are safe to use as-is after being passed out of the
-    /// >`withCopyingDataReader { reader in }` closure.
+    /// >`withInoutDataParser { parser in }` closure.
     @discardableResult
-    public mutating func withInoutDataReader<T, E>(
-        _ block: (_ reader: inout InoutDataReader<Self>) throws(E) -> T
+    public mutating func withInoutDataParser<T, E>(
+        _ block: (_ parser: inout InoutDataParser<Self>) throws(E) -> T
     ) throws(E) -> T {
         // since `withUnsafe... { }` does not work with typed error throws, we have to use a workaround to get the typed error out
         var result: Result<T, E>!
         
         withUnsafeMutablePointer(to: &self) { ptr in
-            var reader = InoutDataReader(dataAccess: { $0(&ptr.pointee) })
+            var parser = InoutDataParser(dataAccess: { $0(&ptr.pointee) })
             do throws(E) {
-                let value = try block(&reader)
+                let value = try block(&parser)
                 result = .success(value)
             } catch {
                 result = .failure(error)
@@ -138,8 +138,8 @@ extension DataProtocol {
 // MARK: - API Changes from swift-extensions 2.0.0
 
 @_documentation(visibility: internal)
-@available(*, renamed: "InoutDataReader")
-public typealias PassiveDataReader = InoutDataReader
+@available(*, renamed: "InoutDataParser")
+public typealias PassiveDataReader = InoutDataParser
 
 extension PassiveDataReader {
     @_documentation(visibility: internal)
@@ -147,7 +147,7 @@ extension PassiveDataReader {
     public typealias D = DataType
     
     @_documentation(visibility: internal)
-    @available(*, deprecated, message: "Data readers are no longer instanced directly. Instead, call `data.withDataReader { reader in }`.")
+    @available(*, deprecated, message: "Data parsers are no longer instanced directly. Instead, call `data.withDataReader { parser in }`.")
     public init(_ closure: @escaping (_ block: (inout DataType) -> Void) -> Void) {
         self.dataAccess = closure
     }

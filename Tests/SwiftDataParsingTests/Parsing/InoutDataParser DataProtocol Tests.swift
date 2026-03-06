@@ -1,5 +1,5 @@
 //
-//  InoutDataReader DataProtocol Tests.swift
+//  InoutDataParser DataProtocol Tests.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -10,7 +10,7 @@ import Foundation
 import SwiftDataParsing
 import Testing
 
-@Suite struct InoutDataReader_DataProtocol_Tests {
+@Suite struct InoutDataParser_DataProtocol_Tests {
     @Test
     func dataProtocolGenerics() async throws {
         var data = Data([0x01, 0x02, 0x03, 0x04])
@@ -19,12 +19,12 @@ import Testing
     }
     
     func readGenericData<D: DataProtocol>(data: inout D) async throws {
-        try data.withInoutDataReader { dr in
+        try data.withInoutDataParser { parser in
             // basic test
-            try #expect(dr.readByte() == 0x01)
-            try #expect(dr.readByte() == 0x02)
-            try #expect(dr.readByte() == 0x03)
-            try #expect(dr.readByte() == 0x04)
+            try #expect(parser.readByte() == 0x01)
+            try #expect(parser.readByte() == 0x02)
+            try #expect(parser.readByte() == 0x03)
+            try #expect(parser.readByte() == 0x04)
         }
     }
 }
