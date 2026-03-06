@@ -44,13 +44,13 @@ extension _DataParserProtocol {
         guard delta != 0 else { return }
         let proposedOffset = readOffset + delta
         guard proposedOffset > -1 else { throw .pastStartOfStream }
-        guard proposedOffset <= _dataSize() else { throw .pastEndOfStream }
+        guard proposedOffset <= count else { throw .pastEndOfStream }
         readOffset = proposedOffset
     }
     
     public mutating func seek(to offset: Int) throws(DataParserError) {
         guard offset > -1 else { throw .pastStartOfStream }
-        guard offset <= _dataSize() else { throw .pastEndOfStream }
+        guard offset <= count else { throw .pastEndOfStream }
         readOffset = offset
     }
     
@@ -66,7 +66,7 @@ extension _DataParserProtocol {
         return d.data
     }
     
-    public mutating func reset() {
+    public mutating func seekToStart() {
         readOffset = 0
     }
 }

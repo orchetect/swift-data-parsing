@@ -42,7 +42,7 @@ public protocol DataParserProtocol {
     mutating func read(bytes count: Int?, advance: Bool) throws(DataParserError) -> DataRange
     
     /// Resets read offset back to byte index 0.
-    mutating func reset()
+    mutating func seekToStart()
 }
 
 // MARK: - Defaulted Parameters Implementation
