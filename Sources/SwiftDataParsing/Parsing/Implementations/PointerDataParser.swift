@@ -108,7 +108,7 @@ extension DataProtocol {
         var result: Result<T, E>!
         
         // Knowledge of the underlying concrete data type is necessary to ensure correct pointer access.
-        if let self = self as? any DataReaderDataProtocol {
+        if let self = self as? any DataParserDataProtocol {
             self.withUnsafeBytes { ptr in
                 let boundPtr = ptr.assumingMemoryBound(to: UInt8.self)
                 var parser = PointerDataParser<Self>(pointer: boundPtr)
