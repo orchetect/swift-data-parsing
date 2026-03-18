@@ -26,7 +26,10 @@ extension DataProtocol {
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
     public func toInt8() -> Int8? {
-        guard count == 1 else { return nil }
+        guard count == 1 else {
+            assertionFailure("Data byte length is incorrect. Expected 1 byte but got \(count).")
+            return nil
+        }
         
         var int = UInt8()
         withUnsafeMutableBytes(of: &int) {

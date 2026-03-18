@@ -34,7 +34,11 @@ extension DataProtocol {
         from endianness: DataEndianness = .platformDefault,
         toType: T.Type
     ) -> T? {
-        guard count == MemoryLayout<T>.size else { return nil }
+        let expectedByteLength = MemoryLayout<T>.size
+        guard count == expectedByteLength else {
+            assertionFailure("Data byte length is incorrect. Expected \(expectedByteLength) bytes but got \(count).")
+            return nil
+        }
         
         // define conversion
         

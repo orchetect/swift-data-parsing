@@ -47,7 +47,10 @@ extension DataProtocol {
     /// Returns `nil` if Data is != 4 bytes.
     @_disfavoredOverload
     public func toFloat32(from endianness: DataEndianness = .platformDefault) -> Float32? {
-        guard count == 4 else { return nil }
+        guard count == 4 else {
+            assertionFailure("Data byte length is incorrect. Expected 4 bytes but got \(count).")
+            return nil
+        }
         
         // define conversions
         

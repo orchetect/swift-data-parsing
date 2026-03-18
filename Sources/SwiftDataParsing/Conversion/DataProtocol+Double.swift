@@ -48,7 +48,10 @@ extension DataProtocol {
     /// Returns `nil` if Data is != 8 bytes.
     @_disfavoredOverload
     public func toDouble(from endianness: DataEndianness = .platformDefault) -> Double? {
-        guard count == 8 else { return nil }
+        guard count == 8 else {
+            assertionFailure("Data byte length is incorrect. Expected 8 bytes but got \(count).")
+            return nil
+        }
         
         // define conversions
         
