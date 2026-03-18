@@ -20,12 +20,24 @@ import Testing
 
         // .toFloat32
 
-        #expect(Data([]).toFloat32() == nil) // underflow
-        #expect(Data([1]).toFloat32() == nil) // underflow
-        #expect(Data([1, 2]).toFloat32() == nil) // underflow
-        #expect(Data([1, 2, 3]).toFloat32() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toFloat32() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toFloat32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toFloat32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toFloat32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toFloat32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toFloat32() == nil) // overflow
+        }
+        #endif
+            
         #expect(Data([1, 2, 3, 4]).toFloat32(from: .littleEndian) == 1.5399896e-36)
         #expect(Data([1, 2, 3, 4]).toFloat32(from: .bigEndian) == 2.3879393e-38)
 

@@ -26,16 +26,36 @@ import Testing
 
         // .toDouble
 
-        #expect(Data([]).toDouble() == nil) // underflow
-        #expect(Data([1]).toDouble() == nil) // underflow
-        #expect(Data([1, 2]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3, 4]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7]).toDouble() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toDouble() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7]).toDouble() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toDouble() == nil) // overflow
+        }
+        #endif
+            
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toDouble(from: .littleEndian)
                 == 5.447603722011605e-270

@@ -23,16 +23,36 @@ import Testing
 
         // .toUInt
 
-        #expect(Data([]).toUInt() == nil) // underflow
-        #expect(Data([1]).toUInt() == nil) // underflow
-        #expect(Data([1, 2]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toUInt() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toUInt() == nil) // overflow
+        }
+        #endif
+            
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toUInt(from: .littleEndian)
                 == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
@@ -75,12 +95,24 @@ import Testing
 
         // .toUInt
 
-        #expect(Data([]).toUInt() == nil) // underflow
-        #expect(Data([1]).toUInt() == nil) // underflow
-        #expect(Data([1, 2]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3]).toUInt() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toUInt() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toUInt() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toUInt() == nil) // overflow
+        }
+        #endif
+            
         #expect(
             Data([1, 2, 3, 4]).toUInt(from: .littleEndian)
                 == 0b0000_0100_0000_0011_0000_0010_0000_0001
@@ -159,10 +191,17 @@ import Testing
 
         // .toUInt8
 
-        #expect(Data([]).toUInt8() == nil) // underflow
         #expect(Data([1]).toUInt8() == 0b0000_0001)
-        #expect(Data([1, 2]).toUInt8() == nil) // overflow
-
+        
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt8() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toUInt8() == nil) // overflow
+        }
+        #endif
+        
         // both ways
 
         #expect(UInt8(1).toData().toUInt8() == 1)
@@ -173,9 +212,16 @@ import Testing
     func uInt8_uInt8Array() async {
         // .toUInt8
 
-        #expect(([] as [UInt8]).toUInt8() == nil) // underflow
         #expect(([1] as [UInt8]).toUInt8() == 0b0000_0001)
-        #expect(([1, 2] as [UInt8]).toUInt8() == nil) // overflow
+        
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(([] as [UInt8]).toUInt8() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(([1, 2] as [UInt8]).toUInt8() == nil) // overflow
+        }
+        #endif
     }
 
     @Test
@@ -187,9 +233,17 @@ import Testing
 
         // .toUInt16
 
-        #expect(Data([]).toUInt16() == nil) // underflow
-        #expect(Data([1]).toUInt16() == nil) // underflow
-        #expect(Data([1, 2, 3]).toUInt16() == nil) // overflow
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt16() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toUInt16() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toUInt16() == nil) // overflow
+        }
+        #endif
 
         #expect(
             Data([1, 2]).toUInt16(from: .littleEndian)
@@ -233,12 +287,24 @@ import Testing
 
         // .toUInt32
 
-        #expect(Data([]).toUInt32() == nil) // underflow
-        #expect(Data([1]).toUInt32() == nil) // underflow
-        #expect(Data([1, 2]).toUInt32() == nil) // underflow
-        #expect(Data([1, 2, 3]).toUInt32() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toUInt32() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toUInt32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toUInt32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toUInt32() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toUInt32() == nil) // overflow
+        }
+        #endif
+        
         #expect(
             Data([1, 2, 3, 4]).toUInt32(from: .littleEndian)
                 == 0b0000_0100_0000_0011_0000_0010_0000_0001
@@ -282,16 +348,36 @@ import Testing
 
         // .toUInt64
 
-        #expect(Data([]).toUInt64() == nil) // underflow
-        #expect(Data([1]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3, 4]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7]).toUInt64() == nil) // underflow
-        #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toUInt64() == nil) // overflow
-
+        #if compiler(>=6.2)
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7]).toUInt64() == nil) // underflow
+        }
+        await #expect(processExitsWith: .failure) {
+            #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toUInt64() == nil) // overflow
+        }
+        #endif
+        
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toUInt64(from: .littleEndian)
                 == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
