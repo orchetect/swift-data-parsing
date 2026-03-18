@@ -16,14 +16,14 @@ import protocol Foundation.DataProtocol
 extension Double {
     /// Returns Data representation of a Double value.
     @_disfavoredOverload
-    public func toData(_ endianness: DataEndianness = .platformDefault) -> Data {
+    public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {
         var number = self
         
         return withUnsafeBytes(of: &number) { rawBuffer in
             rawBuffer.withMemoryRebound(to: UInt8.self) { buffer in
-                switch endianness {
+                switch byteOrder {
                 case .littleEndian:
-                    switch DataEndianness.platformDefault {
+                    switch ByteOrder.platformDefault {
                     case .littleEndian:
                         Data(buffer: buffer)
                     case .bigEndian:
@@ -31,7 +31,7 @@ extension Double {
                     }
                     
                 case .bigEndian:
-                    switch DataEndianness.platformDefault {
+                    switch ByteOrder.platformDefault {
                     case .littleEndian:
                         Data(Data(buffer: buffer).reversed())
                     case .bigEndian:
@@ -47,7 +47,7 @@ extension DataProtocol {
     /// Returns a Double value from Data.
     /// Returns `nil` if Data is != 8 bytes.
     @_disfavoredOverload
-    public func toDouble(from endianness: DataEndianness = .platformDefault) -> Double? {
+    public func toDouble(from byteOrder: ByteOrder = .platformDefault) -> Double? {
         guard count == 8 else {
             assertionFailure("Data byte length is incorrect. Expected 8 bytes but got \(count).")
             return nil
@@ -115,15 +115,15 @@ extension DataProtocol {
         
         // determine which conversion is needed
         
-        return switch endianness {
+        return switch byteOrder {
         case .littleEndian:
-            switch DataEndianness.platformDefault {
+            switch ByteOrder.platformDefault {
             case .littleEndian: number()
             case .bigEndian: numberSwapped()
             }
             
         case .bigEndian:
-            switch DataEndianness.platformDefault {
+            switch ByteOrder.platformDefault {
             case .littleEndian: numberSwapped()
             case .bigEndian: number()
             }

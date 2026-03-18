@@ -12,10 +12,10 @@ import protocol Foundation.DataProtocol
 
 extension FixedWidthInteger {
     /// Returns Data representation of an integer.
-    /// (Endianness has no effect on single-byte integers.)
+    /// (Byte order has no effect on single-byte integers.)
     @_disfavoredOverload
-    public func toData(_ endianness: DataEndianness = .platformDefault) -> Data {
-        var int: Self = switch endianness {
+    public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {
+        var int: Self = switch byteOrder {
         case .littleEndian: littleEndian
         case .bigEndian: bigEndian
         }
@@ -31,7 +31,7 @@ extension FixedWidthInteger {
 extension DataProtocol {
     /// Utility method to convert data bytes to a fixed width integer.
     func toNumber<T: FixedWidthInteger>(
-        from endianness: DataEndianness = .platformDefault,
+        from byteOrder: ByteOrder = .platformDefault,
         toType: T.Type
     ) -> T? {
         let expectedByteLength = MemoryLayout<T>.size
@@ -71,15 +71,15 @@ extension DataProtocol {
         
         // determine which conversion is needed
         
-        return switch endianness {
+        return switch byteOrder {
         case .littleEndian:
-            switch DataEndianness.platformDefault {
+            switch ByteOrder.platformDefault {
             case .littleEndian: int
             case .bigEndian: int.byteSwapped
             }
             
         case .bigEndian:
-            switch DataEndianness.platformDefault {
+            switch ByteOrder.platformDefault {
             case .littleEndian: int.byteSwapped
             case .bigEndian: int
             }

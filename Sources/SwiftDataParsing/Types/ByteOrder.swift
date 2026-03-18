@@ -1,5 +1,5 @@
 //
-//  DataEndianness.swift
+//  ByteOrder.swift
 //  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
@@ -15,14 +15,17 @@
 // and this is the case even if both use IEEE 754 floating point arithmetic since the endianness of
 // the memory representation is not part of the IEEE specification.
 
-/// Binary data/memory storage endianness (byte ordering).
-public enum DataEndianness {
+/// Binary data byte order (endianness).
+public enum ByteOrder {
+    /// Little-endian byte order. (default for Apple platforms)
     case littleEndian
+    
+    /// Big-endian byte order.
     case bigEndian
 }
 
-extension DataEndianness: Equatable { }
+extension ByteOrder: Equatable { }
 
-extension DataEndianness: Hashable { }
+extension ByteOrder: Hashable { }
 
-extension DataEndianness: Sendable { }
+extension ByteOrder: Sendable { }

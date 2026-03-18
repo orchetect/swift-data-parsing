@@ -2,7 +2,7 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-data-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%swift-data-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-data-parsing/blob/main/LICENSE)
 
-Multi-platform binary data parsing abstractions for Swift, with integer and floating-point conversions to/from binary data with control over byte endianness.
+Multi-platform binary data parsing abstractions for Swift, with integer and floating-point conversions to/from binary data with control over byte order (endianness).
 
 ## Data Parsing
 
@@ -126,7 +126,7 @@ Int16(1).toData() // Data([0x01, 0x00])?
 // etc.
 ```
 
-By default, platform-default endianness is assumed, but source endianness can be specified when converting to/from binary data that needs specific byte ordering.
+By default, platform-default byte order is assumed, but source byte order can be specified when converting to/from binary data.
 
 ```swift
 Data([0x01, 0x00]).toUInt16() // 1 as UInt16? // (Apple platforms use litte-endian)

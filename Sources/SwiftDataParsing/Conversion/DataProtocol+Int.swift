@@ -14,8 +14,8 @@ extension DataProtocol {
     /// Returns an Int64 value from Data.
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
-    public func toInt(from endianness: DataEndianness = .platformDefault) -> Int? {
-        toNumber(from: endianness, toType: Int.self)
+    public func toInt(from byteOrder: ByteOrder = .platformDefault) -> Int? {
+        toNumber(from: byteOrder, toType: Int.self)
     }
 }
 
@@ -45,8 +45,8 @@ extension DataProtocol {
     /// Returns an Int16 value from Data.
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
-    public func toInt16(from endianness: DataEndianness = .platformDefault) -> Int16? {
-        toNumber(from: endianness, toType: Int16.self)
+    public func toInt16(from byteOrder: ByteOrder = .platformDefault) -> Int16? {
+        toNumber(from: byteOrder, toType: Int16.self)
     }
 }
 
@@ -56,8 +56,8 @@ extension DataProtocol {
     /// Returns an Int32 value from Data.
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
-    public func toInt32(from endianness: DataEndianness = .platformDefault) -> Int32? {
-        toNumber(from: endianness, toType: Int32.self)
+    public func toInt32(from byteOrder: ByteOrder = .platformDefault) -> Int32? {
+        toNumber(from: byteOrder, toType: Int32.self)
     }
 }
 
@@ -67,8 +67,8 @@ extension DataProtocol {
     /// Returns an Int64 value from Data.
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
-    public func toInt64(from endianness: DataEndianness = .platformDefault) -> Int64? {
-        toNumber(from: endianness, toType: Int64.self)
+    public func toInt64(from byteOrder: ByteOrder = .platformDefault) -> Int64? {
+        toNumber(from: byteOrder, toType: Int64.self)
     }
 }
 
