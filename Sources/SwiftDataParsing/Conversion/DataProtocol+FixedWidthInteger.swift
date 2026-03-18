@@ -11,15 +11,13 @@ import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
 extension FixedWidthInteger {
-    /// Returns Data representation of an integer. (Endianness has no effect on single-byte
-    /// integers.)
+    /// Returns Data representation of an integer.
+    /// (Endianness has no effect on single-byte integers.)
     @_disfavoredOverload
     public func toData(_ endianness: DataEndianness = .platformDefault) -> Data {
-        var int: Self
-        
-        switch endianness {
-        case .littleEndian: int = littleEndian
-        case .bigEndian: int = bigEndian
+        var int: Self = switch endianness {
+        case .littleEndian: littleEndian
+        case .bigEndian: bigEndian
         }
         
         return withUnsafeBytes(of: &int) { rawBuffer in
@@ -69,21 +67,17 @@ extension DataProtocol {
         
         // determine which conversion is needed
         
-        switch endianness {
+        return switch endianness {
         case .littleEndian:
             switch DataEndianness.platformDefault {
-            case .littleEndian:
-                return int
-            case .bigEndian:
-                return int.byteSwapped
+            case .littleEndian: int
+            case .bigEndian: int.byteSwapped
             }
             
         case .bigEndian:
             switch DataEndianness.platformDefault {
-            case .littleEndian:
-                return int.byteSwapped
-            case .bigEndian:
-                return int
+            case .littleEndian: int.byteSwapped
+            case .bigEndian: int
             }
         }
     }

@@ -15,7 +15,7 @@
 // and this is the case even if both use IEEE 754 floating point arithmetic since the endianness of
 // the memory representation is not part of the IEEE specification.
 
-/// Enum describing binary storage endianness.
+/// Binary data/memory storage endianness (byte ordering).
 public enum DataEndianness {
     case littleEndian
     case bigEndian
