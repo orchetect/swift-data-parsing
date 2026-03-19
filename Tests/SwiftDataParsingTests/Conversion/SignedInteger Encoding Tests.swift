@@ -42,6 +42,7 @@ import Testing
     func uInt8_encoding_twosComplement() async {
         #expect(UInt8(encoding: Int8(-128), as: .twosComplement) == 0b1000_0000)
         #expect(UInt8(encoding: Int8(-127), as: .twosComplement) == 0b1000_0001)
+        #expect(UInt8(encoding: Int8(-2),   as: .twosComplement) == 0b1111_1110)
         #expect(UInt8(encoding: Int8(-1),   as: .twosComplement) == 0b1111_1111)
         #expect(UInt8(encoding: Int8(-0),   as: .twosComplement) == 0b0000_0000)
         #expect(UInt8(encoding: Int8(0),    as: .twosComplement) == 0b0000_0000)
@@ -85,6 +86,7 @@ import Testing
     func uInt16_encoding_twosComplement() async {
         #expect(UInt16(encoding: Int16(-32768), as: .twosComplement) == 0b1000_0000_0000_0000)
         #expect(UInt16(encoding: Int16(-32767), as: .twosComplement) == 0b1000_0000_0000_0001)
+        #expect(UInt16(encoding: Int16(-2),     as: .twosComplement) == 0b1111_1111_1111_1110)
         #expect(UInt16(encoding: Int16(-1),     as: .twosComplement) == 0b1111_1111_1111_1111)
         #expect(UInt16(encoding: Int16(-0),     as: .twosComplement) == 0b0000_0000_0000_0000)
         #expect(UInt16(encoding: Int16(0),      as: .twosComplement) == 0b0000_0000_0000_0000)
