@@ -237,7 +237,10 @@ import Testing
 
         #expect(Int16(0b1).toData(.littleEndian) == Data([0b1, 0]))
         #expect(Int16(0b1).toData(.bigEndian) == Data([0, 0b1]))
-
+        
+        #expect(Int16(-2).toData(.littleEndian, as: .twosComplement) == Data([0b1111_1110, 0b1111_1111]))
+        #expect(Int16(-2).toData(.bigEndian, as: .twosComplement) == Data([0b1111_1111, 0b1111_1110]))
+        
         // .toInt16
 
         #if compiler(>=6.2)
@@ -260,14 +263,21 @@ import Testing
             Data([1, 2]).toInt16(from: .bigEndian)
                 == 0b0000_0001_0000_0010
         )
+        
+        #expect(
+            Data([0b1111_1110, 0b1111_1111]).toInt16(from: .littleEndian, as: .twosComplement)
+                == -2
+        )
+        
+        #expect(
+            Data([0b1111_1111, 0b1111_1110]).toInt16(from: .bigEndian, as: .twosComplement)
+                == -2
+        )
 
         // both ways
         #expect(Data([1, 2]).toInt16()?.toData() == Data([1, 2]))
 
-        #expect(
-            Data([1, 2]).toInt16(from: .littleEndian)?.toData(.littleEndian)
-                == Data([1, 2])
-        )
+        #expect(Data([1, 2]).toInt16(from: .littleEndian)?.toData(.littleEndian) == Data([1, 2]))
         #expect(Data([1, 2]).toInt16(from: .bigEndian)?.toData(.bigEndian) == Data([1, 2]))
 
         #expect(Data([1, 2]).toInt16(from: .littleEndian)?.toData(.bigEndian) == Data([2, 1]))
