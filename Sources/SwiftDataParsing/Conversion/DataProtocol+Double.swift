@@ -14,7 +14,7 @@ import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
 extension Double {
-    /// Returns Data representation of a Double value.
+    /// Returns `Data` representation of a `Double` value.
     @_disfavoredOverload
     public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {
         var number = self
@@ -44,8 +44,8 @@ extension Double {
 }
 
 extension DataProtocol {
-    /// Returns a Double value from Data.
-    /// Returns `nil` if Data is != 8 bytes.
+    /// Returns a `Double` value from `Data`.
+    /// Returns `nil` if `self != 8 bytes`.
     @_disfavoredOverload
     public func toDouble(from byteOrder: ByteOrder = .platformDefault) -> Double? {
         guard count == 8 else {

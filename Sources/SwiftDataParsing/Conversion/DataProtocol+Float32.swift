@@ -13,7 +13,7 @@ import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
 extension Float32 {
-    /// Returns Data representation of a Float32 value.
+    /// Returns `Data` representation of a `Float32` value.
     @_disfavoredOverload
     public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {
         var number = self
@@ -43,8 +43,8 @@ extension Float32 {
 }
 
 extension DataProtocol {
-    /// Returns a Float32 value from Data.
-    /// Returns `nil` if Data is != 4 bytes.
+    /// Returns a `Float32` value from Data.
+    /// Returns `nil` if `self != 4 bytes`.
     @_disfavoredOverload
     public func toFloat32(from byteOrder: ByteOrder = .platformDefault) -> Float32? {
         guard count == 4 else {

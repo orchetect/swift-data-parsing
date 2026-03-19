@@ -12,7 +12,7 @@ import struct Foundation.Data
 // MARK: - Int
 
 extension DataProtocol {
-    /// Returns an Int64 value from Data.
+    /// Returns an `Int64` value from `Data`.
     /// Returns `nil` if Data is not the correct length.
     @_disfavoredOverload
     public func toInt(from byteOrder: ByteOrder = .platformDefault) -> Int? {
@@ -23,8 +23,8 @@ extension DataProtocol {
 // MARK: - Int8
 
 extension DataProtocol {
-    /// Returns an Int8 value from Data.
-    /// Returns `nil` if Data is not the correct length.
+    /// Returns an `Int8` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
     @_disfavoredOverload
     public func toInt8(from encoding: SignedIntegerEncoding = .signedBit) -> Int8? {
         guard count == 1 else {
@@ -41,76 +41,11 @@ extension DataProtocol {
     }
 }
 
-extension Int8 {
-    /// Returns Data representation of a signed integer.
-    @_disfavoredOverload
-    public func toData(_ encoding: SignedIntegerEncoding = .signedBit) -> Data {
-        let byte = UInt8(self, encoding: encoding)
-        return Data([byte])
-    }
-}
-
-extension Int8 {
-    /// Decode a signed integer from a byte encoded with the specified encoding format.
-    public init(_ byte: UInt8, encoding: SignedIntegerEncoding) {
-        lazy var signBit = (byte & 0b1000_0000) >> 7
-        
-        switch encoding {
-        case .signedBit: // -128 ... 0 ... 127
-            // signed integer types use signed bit encoding by default
-            self.init(bitPattern: byte)
-            return
-            
-        case .onesComplement: // -127 ... -0, +0 ... 127
-            switch signBit {
-            case 0b0: // positive
-                // For +ve numbers the representation rules are the same as signed integer representation.
-                precondition(byte < 128)
-                self.init(bitPattern: byte & 0b0111_1111)
-                return
-                
-            case 0b1: // negative
-                // For -ve numbers, use the +ve binary and take 1's complement
-                let magnitude = byte & 0b0111_1111
-                self = Int8(magnitude) - 0b0111_1111
-                return
-                
-            default:
-                fatalError("Encountered unexpected signum.")
-            }
-            
-            
-        case .twosComplement:
-            switch signBit {
-            case 0b0: // positive
-                // For +ve numbers the representation rules are the same as signed integer representation.
-                precondition(byte < 128)
-                self.init(bitPattern: byte & 0b0111_1111)
-                return
-                
-            case 0b1: // negative
-                // For -ve numbers, use the +ve binary and take 2's complement
-                let magnitude = Int8(byte & 0b0111_1111)
-                self = -(0b111_1111 - magnitude) - 1
-                return
-            default:
-                fatalError("Encountered unexpected signum.")
-            }
-        }
-    }
-    
-    /// Encode a signed integer using the specified encoding format.
-    @_disfavoredOverload
-    public func toUInt8(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt8 {
-        UInt8(self, encoding: encoding)
-    }
-}
-
 // MARK: - Int16
 
 extension DataProtocol {
-    /// Returns an Int16 value from Data.
-    /// Returns `nil` if Data is not the correct length.
+    /// Returns an `Int16` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
     @_disfavoredOverload
     public func toInt16(from byteOrder: ByteOrder = .platformDefault) -> Int16? {
         toNumber(from: byteOrder, toType: Int16.self)
@@ -120,8 +55,8 @@ extension DataProtocol {
 // MARK: - Int32
 
 extension DataProtocol {
-    /// Returns an Int32 value from Data.
-    /// Returns `nil` if Data is not the correct length.
+    /// Returns an `Int32` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
     @_disfavoredOverload
     public func toInt32(from byteOrder: ByteOrder = .platformDefault) -> Int32? {
         toNumber(from: byteOrder, toType: Int32.self)
@@ -131,8 +66,8 @@ extension DataProtocol {
 // MARK: - Int64
 
 extension DataProtocol {
-    /// Returns an Int64 value from Data.
-    /// Returns `nil` if Data is not the correct length.
+    /// Returns an `Int64` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
     @_disfavoredOverload
     public func toInt64(from byteOrder: ByteOrder = .platformDefault) -> Int64? {
         toNumber(from: byteOrder, toType: Int64.self)

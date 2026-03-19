@@ -11,7 +11,7 @@ import struct Foundation.Data
 import protocol Foundation.DataProtocol
 
 extension FixedWidthInteger {
-    /// Returns Data representation of an integer.
+    /// Returns `Data` representation of an integer.
     /// (Byte order has no effect on single-byte integers.)
     @_disfavoredOverload
     public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {

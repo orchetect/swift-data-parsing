@@ -16,3 +16,16 @@ extension DataParserError: Equatable { }
 extension DataParserError: Hashable { }
 
 extension DataParserError: Sendable { }
+
+extension DataParserError {
+    public var localizedDescription: String {
+        switch self {
+        case .invalidByteCount:
+            "Invalid byte count."
+        case .pastStartOfStream:
+            "Past start of data stream (underflow)."
+        case .pastEndOfStream:
+            "Past end of data stream (overflow)."
+        }
+    }
+}
