@@ -148,15 +148,16 @@ Alternatively, one's complement and two's complement encodings are available whe
 
 ```swift
 // from Data
-Data([...]).toInt8(as: .signedBit) // Default, same as calling .toInt8()
+Data([...]).toInt8(as: .signedBit) // Default, same as .toInt8()
 Data([...]).toInt8(as: .onesComplement)
 Data([...]).toInt8(as: .twosComplement)
 
 // to Data
 Int8(...).toData(as: ...)
 
-// to unsigned integer with same bit width
+// to/from unsigned integer with same bit width
 Int8(...).toUInt8(as: ...)
+UInt8(...).toInt8(as: ...)
 ```
 
 ## Data Conversion
