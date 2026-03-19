@@ -20,7 +20,7 @@ import Testing
 
         // .toFloat32
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toFloat32() == nil) // underflow
         }

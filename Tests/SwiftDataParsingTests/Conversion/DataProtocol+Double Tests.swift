@@ -26,7 +26,7 @@ import Testing
 
         // .toDouble
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toDouble() == nil) // underflow
         }

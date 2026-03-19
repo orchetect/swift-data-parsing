@@ -24,7 +24,7 @@ import Testing
 
         // .toInt64
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt() == nil) // underflow
         }
@@ -199,7 +199,7 @@ import Testing
 
         #expect(Data([1]).toInt8() == 0b0000_0001)
         
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt8() == nil) // underflow
         }
@@ -221,7 +221,7 @@ import Testing
 
         #expect(([1] as [UInt8]).toInt8() == 0b0000_0001)
         
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(([] as [UInt8]).toInt8() == nil) // underflow
         }
@@ -243,7 +243,7 @@ import Testing
         
         // .toInt16
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt16() == nil) // underflow
         }
@@ -307,7 +307,7 @@ import Testing
 
         // .toInt32
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt32() == nil) // underflow
         }
@@ -469,7 +469,7 @@ import Testing
 
         // .toInt64
 
-        #if compiler(>=6.2)
+        #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt64() == nil) // underflow
         }
