@@ -7,6 +7,7 @@
 #if canImport(Foundation)
 
 import protocol Foundation.DataProtocol
+import struct Foundation.Data
 
 // MARK: - Int
 
@@ -37,6 +38,15 @@ extension DataProtocol {
         }
         
         return Int8(byte, encoding: encoding)
+    }
+}
+
+extension Int8 {
+    /// Returns Data representation of a signed integer.
+    @_disfavoredOverload
+    public func toData(_ encoding: SignedIntegerEncoding = .signedBit) -> Data {
+        let byte = UInt8(self, encoding: encoding)
+        return Data([byte])
     }
 }
 
