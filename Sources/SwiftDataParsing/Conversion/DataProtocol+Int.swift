@@ -98,6 +98,12 @@ extension Int8 {
             }
         }
     }
+    
+    /// Encode a signed integer using the specified encoding format.
+    @_disfavoredOverload
+    public func toUInt8(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt8 {
+        UInt8(self, encoding: encoding)
+    }
 }
 
 // MARK: - Int16
