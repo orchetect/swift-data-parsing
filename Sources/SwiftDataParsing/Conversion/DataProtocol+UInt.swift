@@ -58,6 +58,7 @@ extension UInt8 {
                 
             case -1:
                 // For -ve numbers, use the +ve binary and take 1's complement
+                precondition(signedInteger > -128)
                 self = 0b1000_0000 + ((0b0111_1111 - UInt8(abs(signedInteger)) & 0b0111_1111))
                 return
                 
