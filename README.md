@@ -1,6 +1,6 @@
 # swift-data-parsing
 
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-data-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%swift-data-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-data-parsing/blob/main/LICENSE)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-data-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-data-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-data-parsing) [![Xcode 16](https://img.shields.io/badge/Xcode-16-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-data-parsing/blob/main/LICENSE)
 
 Multi-platform binary data parsing abstractions for Swift, with integer and floating-point conversions to/from binary data with control over byte order (endianness).
 
@@ -126,6 +126,8 @@ Int16(1).toData() // Data([0x01, 0x00])?
 // etc.
 ```
 
+### Byte Ordering
+
 By default, platform-default byte order is assumed, but source byte order can be specified when converting to/from binary data.
 
 ```swift
@@ -136,6 +138,25 @@ Data([0x00, 0x01]).toUInt16(from: .bigEndian) // 1 as UInt16?
 UInt16(1).toData() // Data([0x01, 0x00])? // (Apple platforms use litte-endian)
 UInt16(1).toData(.littleEndian) // Data([0x01, 0x00])?
 UInt16(1).toData(.bigEndian) // Data([0x00, 0x01])?
+```
+
+### Signed Integer Encoding
+
+By default, default encoding of signed integers uses signed bit encoding when stored as bytes.
+
+Alternatively, one's complement and two's complement encodings are available when converting to/from data.
+
+```swift
+// from Data
+Data([...]).toInt8(as: .signedBit) // Default, same as calling .toInt8()
+Data([...]).toInt8(as: .onesComplement)
+Data([...]).toInt8(as: .twosComplement)
+
+// to Data
+Int8(...).toData(as: ...)
+
+// to unsigned integer with same bit width
+Int8(...).toUInt8(as: ...)
 ```
 
 ## Data Conversion
@@ -150,6 +171,15 @@ let bytes = data.toUInt8Bytes() // as [UInt8]
 // [UInt8] -> Data
 let bytes: [UInt8] = [0x01, 0x02]
 let data = bytes.toData() // as Data
+```
+
+## Accessing Bits
+
+Return the bit at the specified bit position from least significant bit of any unsigned integer:
+
+```swift
+UInt8(0b1000_0000).bit(0) // 0
+UInt8(0b1000_0000).bit(7) // 1
 ```
 
 ## Installation: Swift Package Manager (SPM)
@@ -171,7 +201,7 @@ In your Package.swift file:
 ```swift
 let package = Package(
     dependencies: [
-        .package(url: "https://github.com/orchetect/swift-data-parsing", from: "0.1.0")
+        .package(url: "https://github.com/orchetect/swift-data-parsing", from: "0.1.1")
     ],
     targets: [
         .target(
