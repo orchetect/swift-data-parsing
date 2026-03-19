@@ -7,6 +7,8 @@
 public protocol EncodableToUnsignedInteger where Self: SignedInteger {
     associatedtype EncodedInteger: UnsignedInteger & FixedWidthInteger
     init(bitPattern x: EncodedInteger)
+    
+    init(decoding source: EncodedInteger, as encoding: SignedIntegerEncoding)
 }
 
 extension Int: EncodableToUnsignedInteger {

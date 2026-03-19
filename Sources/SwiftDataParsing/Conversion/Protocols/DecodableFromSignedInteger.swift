@@ -7,6 +7,8 @@
 public protocol DecodableFromSignedInteger where Self: UnsignedInteger {
     associatedtype DecodedInteger: SignedInteger & FixedWidthInteger
     init(bitPattern x: DecodedInteger)
+    
+    init(encoding source: DecodedInteger, as encoding: SignedIntegerEncoding)
 }
 
 extension UInt: DecodableFromSignedInteger {

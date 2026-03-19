@@ -31,7 +31,7 @@ extension FixedWidthInteger {
 extension DataProtocol {
     /// Utility method to convert data bytes to a fixed width integer.
     func toNumber<T: FixedWidthInteger>(
-        from byteOrder: ByteOrder = .platformDefault,
+        from byteOrder: ByteOrder,
         toType: T.Type
     ) -> T? {
         let expectedByteLength = MemoryLayout<T>.size
@@ -84,6 +84,18 @@ extension DataProtocol {
             case .bigEndian: int
             }
         }
+    }
+}
+
+extension DataProtocol {
+    /// Utility method to convert data bytes to a fixed width integer.
+    func toNumber<T: FixedWidthInteger>(
+        from byteOrder: ByteOrder,
+        toType: T.Type,
+        as encoding: SignedIntegerEncoding
+    ) -> T? where T: SignedInteger, T: EncodableToUnsignedInteger {
+        guard let uint = toNumber(from: byteOrder, toType: T.EncodedInteger.self) else { return nil }
+        return T(decoding: uint, as: encoding)
     }
 }
 
