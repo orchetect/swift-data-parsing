@@ -37,7 +37,7 @@ extension DataProtocol {
             _ = self.copyBytes(to: $0, count: 1)
         }
         
-        return Int8(byte, encoding: encoding)
+        return Int8(decoding: byte, as: encoding)
     }
 }
 

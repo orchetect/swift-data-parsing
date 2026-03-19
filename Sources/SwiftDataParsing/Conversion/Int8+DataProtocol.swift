@@ -12,8 +12,8 @@ import struct Foundation.Data
 extension Int8 {
     /// Returns `Data` representation of a signed integer.
     @_disfavoredOverload
-    public func toData(_ encoding: SignedIntegerEncoding = .signedBit) -> Data {
-        let byte = UInt8(self, encoding: encoding)
+    public func toData(as encoding: SignedIntegerEncoding = .signedBit) -> Data {
+        let byte = UInt8(decoding: self, as: encoding)
         return Data([byte])
     }
 }
