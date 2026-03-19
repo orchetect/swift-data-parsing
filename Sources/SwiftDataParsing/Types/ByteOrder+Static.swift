@@ -4,7 +4,7 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-#if canImport(Foundation)
+#if canImport(Darwin)
 
 import var Foundation.NS_BigEndian
 import var Foundation.NS_LittleEndian
