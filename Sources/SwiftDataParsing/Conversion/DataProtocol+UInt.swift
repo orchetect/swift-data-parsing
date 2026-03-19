@@ -69,6 +69,14 @@ extension DataProtocol {
 
 // MARK: - UInt128
 
-// TODO: Add UInt128 on supported platforms
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension DataProtocol {
+    /// Returns a `UInt128` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
+    @_disfavoredOverload
+    public func toUInt128(from byteOrder: ByteOrder = .platformDefault) -> UInt128? {
+        toNumber(from: byteOrder, toType: UInt128.self)
+    }
+}
 
 #endif

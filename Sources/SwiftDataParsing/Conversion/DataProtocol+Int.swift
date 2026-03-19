@@ -76,6 +76,14 @@ extension DataProtocol {
 
 // MARK: - Int128
 
-// TODO: Add Int128 on supported platforms
+@available(macOS 15.0, iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
+extension DataProtocol {
+    /// Returns an `Int128` value from `Data`.
+    /// Returns `nil` if `self` is not the correct length.
+    @_disfavoredOverload
+    public func toInt128(from byteOrder: ByteOrder = .platformDefault) -> Int128? {
+        toNumber(from: byteOrder, toType: Int128.self)
+    }
+}
 
 #endif
