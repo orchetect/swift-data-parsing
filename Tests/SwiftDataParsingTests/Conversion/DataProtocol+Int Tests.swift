@@ -230,6 +230,47 @@ import Testing
         }
         #endif
     }
+    
+    @Test
+    func int8_fromByte_signedBitEncoding() async {
+        #expect(Int8(UInt8(0b1000_0000), encoding: .signedBit) == -128)
+        #expect(Int8(UInt8(0b1000_0001), encoding: .signedBit) == -127)
+        #expect(Int8(UInt8(0b1111_1110), encoding: .signedBit) == -2)
+        #expect(Int8(UInt8(0b1111_1111), encoding: .signedBit) == -1)
+        #expect(Int8(UInt8(0b0000_0000), encoding: .signedBit) == -0)
+        #expect(Int8(UInt8(0b0000_0000), encoding: .signedBit) == 0)
+        #expect(Int8(UInt8(0b0000_0001), encoding: .signedBit) == 1)
+        #expect(Int8(UInt8(0b0000_0010), encoding: .signedBit) == 2)
+        #expect(Int8(UInt8(0b0111_1110), encoding: .signedBit) == 126)
+        #expect(Int8(UInt8(0b0111_1111), encoding: .signedBit) == 127)
+    }
+    
+    @Test
+    func int8_fromByte_onesComplementEncoding() async {
+        #expect(Int8(UInt8(0b1000_0000), encoding: .onesComplement) == -127)
+        #expect(Int8(UInt8(0b1000_0001), encoding: .onesComplement) == -126)
+        #expect(Int8(UInt8(0b1111_1101), encoding: .onesComplement) == -2)
+        #expect(Int8(UInt8(0b1111_1110), encoding: .onesComplement) == -1)
+        #expect(Int8(UInt8(0b1111_1111), encoding: .onesComplement) == +0)
+        #expect(Int8(UInt8(0b0000_0000), encoding: .onesComplement) == -0)
+        #expect(Int8(UInt8(0b0000_0001), encoding: .onesComplement) == 1)
+        #expect(Int8(UInt8(0b0000_0010), encoding: .onesComplement) == 2)
+        #expect(Int8(UInt8(0b0111_1110), encoding: .onesComplement) == 126)
+        #expect(Int8(UInt8(0b0111_1111), encoding: .onesComplement) == 127)
+    }
+
+    @Test
+    func int8_fromByte_twosComplementEncoding() async {
+        #expect(Int8(UInt8(0b1000_0000), encoding: .twosComplement) == -128)
+        #expect(Int8(UInt8(0b1000_0001), encoding: .twosComplement) == -127)
+        #expect(Int8(UInt8(0b1111_1111), encoding: .twosComplement) == -1)
+        #expect(Int8(UInt8(0b0000_0000), encoding: .twosComplement) == -0)
+        #expect(Int8(UInt8(0b0000_0000), encoding: .twosComplement) == 0)
+        #expect(Int8(UInt8(0b0000_0001), encoding: .twosComplement) == 1)
+        #expect(Int8(UInt8(0b0000_0010), encoding: .twosComplement) == 2)
+        #expect(Int8(UInt8(0b0111_1110), encoding: .twosComplement) == 126)
+        #expect(Int8(UInt8(0b0111_1111), encoding: .twosComplement) == 127)
+    }
 
     @Test
     func int16() async {
