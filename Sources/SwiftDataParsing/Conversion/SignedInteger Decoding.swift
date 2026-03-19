@@ -57,7 +57,7 @@ extension SignedInteger where Self: FixedWidthInteger, Self: EncodableToUnsigned
 extension UInt {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt(from encoding: SignedIntegerEncoding = .signedBit) -> Int {
+    public func toInt(as encoding: SignedIntegerEncoding = .signedBit) -> Int {
         Int(decoding: self, as: encoding)
     }
 }
@@ -65,7 +65,7 @@ extension UInt {
 extension UInt8 {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt8(from encoding: SignedIntegerEncoding = .signedBit) -> Int8 {
+    public func toInt8(as encoding: SignedIntegerEncoding = .signedBit) -> Int8 {
         Int8(decoding: self, as: encoding)
     }
 }
@@ -73,7 +73,7 @@ extension UInt8 {
 extension UInt16 {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt16(from encoding: SignedIntegerEncoding = .signedBit) -> Int16 {
+    public func toInt16(as encoding: SignedIntegerEncoding = .signedBit) -> Int16 {
         Int16(decoding: self, as: encoding)
     }
 }
@@ -81,7 +81,7 @@ extension UInt16 {
 extension UInt32 {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt32(from encoding: SignedIntegerEncoding = .signedBit) -> Int32 {
+    public func toInt32(as encoding: SignedIntegerEncoding = .signedBit) -> Int32 {
         Int32(decoding: self, as: encoding)
     }
 }
@@ -89,7 +89,7 @@ extension UInt32 {
 extension UInt64 {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt64(from encoding: SignedIntegerEncoding = .signedBit) -> Int64 {
+    public func toInt64(as encoding: SignedIntegerEncoding = .signedBit) -> Int64 {
         Int64(decoding: self, as: encoding)
     }
 }
@@ -98,7 +98,7 @@ extension UInt64 {
 extension UInt128 {
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     @_disfavoredOverload
-    public func toInt128(from encoding: SignedIntegerEncoding = .signedBit) -> Int128 {
+    public func toInt128(as encoding: SignedIntegerEncoding = .signedBit) -> Int128 {
         Int128(decoding: self, as: encoding)
     }
 }

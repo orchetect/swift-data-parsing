@@ -67,7 +67,7 @@ extension UnsignedInteger where Self: FixedWidthInteger, Self: DecodableFromSign
 extension Int {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt {
+    public func toUInt(as encoding: SignedIntegerEncoding = .signedBit) -> UInt {
         UInt(encoding: self, as: encoding)
     }
 }
@@ -75,7 +75,7 @@ extension Int {
 extension Int8 {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt8(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt8 {
+    public func toUInt8(as encoding: SignedIntegerEncoding = .signedBit) -> UInt8 {
         UInt8(encoding: self, as: encoding)
     }
 }
@@ -83,7 +83,7 @@ extension Int8 {
 extension Int16 {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt16(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt16 {
+    public func toUInt16(as encoding: SignedIntegerEncoding = .signedBit) -> UInt16 {
         UInt16(encoding: self, as: encoding)
     }
 }
@@ -91,7 +91,7 @@ extension Int16 {
 extension Int32 {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt32(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt32 {
+    public func toUInt32(as encoding: SignedIntegerEncoding = .signedBit) -> UInt32 {
         UInt32(encoding: self, as: encoding)
     }
 }
@@ -99,7 +99,7 @@ extension Int32 {
 extension Int64 {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt64(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt64 {
+    public func toUInt64(as encoding: SignedIntegerEncoding = .signedBit) -> UInt64 {
         UInt64(encoding: self, as: encoding)
     }
 }
@@ -108,7 +108,7 @@ extension Int64 {
 extension Int128 {
     /// Encode a signed integer using the specified encoding format.
     @_disfavoredOverload
-    public func toUInt128(_ encoding: SignedIntegerEncoding = .signedBit) -> UInt128 {
+    public func toUInt128(as encoding: SignedIntegerEncoding = .signedBit) -> UInt128 {
         UInt128(encoding: self, as: encoding)
     }
 }
