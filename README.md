@@ -202,7 +202,7 @@ In your Package.swift file:
 ```swift
 let package = Package(
     dependencies: [
-        .package(url: "https://github.com/orchetect/swift-data-parsing", from: "0.1.1")
+        .package(url: "https://github.com/orchetect/swift-data-parsing", from: "0.1.2")
     ],
     targets: [
         .target(
