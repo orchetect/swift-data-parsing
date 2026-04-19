@@ -7,7 +7,7 @@
 import SwiftDataParsing
 import Testing
 
-// swiftformat:disable spaceInsideParens spaceInsideBrackets spacearoundoperators
+// swiftformat:disable consecutiveSpaces spaceInsideParens spaceInsideBrackets spaceAroundOperators
 
 @Suite
 struct SignedInteger_Encoding_Tests {

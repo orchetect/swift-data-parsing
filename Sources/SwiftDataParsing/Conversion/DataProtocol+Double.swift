@@ -85,6 +85,7 @@ extension DataProtocol {
 
         // double twiddling
 
+        // swiftformat:disable all
         func numberSwapped() -> Double? {
             guard let swapped = if let self = self as? Data {
                 self.withUnsafeBytes({
@@ -112,6 +113,7 @@ extension DataProtocol {
             }
             return CFConvertDoubleSwappedToHost(swapped)
         }
+        // swiftformat:enable all
 
         // determine which conversion is needed
 

@@ -83,6 +83,7 @@ extension DataProtocol {
         }
 
         func numberSwapped() -> Float32? {
+            // swiftformat:disable all
             guard let swapped: CFSwappedFloat32 = if let self = self as? Data {
                 self.withUnsafeBytes({
                     // $0.load(as: CFSwappedFloat32.self)
@@ -107,6 +108,8 @@ extension DataProtocol {
             } else {
                 return nil
             }
+            // swiftformat:enable all
+
             return CFConvertFloat32SwappedToHost(swapped)
         }
 

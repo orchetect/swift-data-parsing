@@ -10,7 +10,8 @@ import Foundation
 import SwiftDataParsing
 import Testing
 
-// swiftformat:options --wrapcollections preserve
+// swiftformat:options --wrap-collections preserve
+// swiftformat:options --allow-partial-wrapping true
 
 @Suite
 struct DataProtocol_String_Tests {
