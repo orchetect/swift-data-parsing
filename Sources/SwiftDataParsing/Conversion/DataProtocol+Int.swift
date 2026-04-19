@@ -6,8 +6,8 @@
 
 #if canImport(Foundation)
 
-import protocol Foundation.DataProtocol
 import struct Foundation.Data
+import protocol Foundation.DataProtocol
 
 // MARK: - Int
 
@@ -34,12 +34,12 @@ extension DataProtocol {
             assertionFailure("Data byte length is incorrect. Expected 1 byte but got \(count).")
             return nil
         }
-        
+
         var byte = UInt8()
         withUnsafeMutableBytes(of: &byte) {
             _ = self.copyBytes(to: $0, count: 1)
         }
-        
+
         return Int8(decoding: byte, as: encoding)
     }
 }

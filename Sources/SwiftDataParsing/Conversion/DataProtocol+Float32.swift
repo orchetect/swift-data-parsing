@@ -17,24 +17,24 @@ extension Float32 {
     @_disfavoredOverload
     public func toData(_ byteOrder: ByteOrder = .platformDefault) -> Data {
         var number = self
-        
+
         return withUnsafeBytes(of: &number) { rawBuffer in
             rawBuffer.withMemoryRebound(to: UInt8.self) { buffer in
                 switch byteOrder {
                 case .littleEndian:
                     switch ByteOrder.platformDefault {
                     case .littleEndian:
-                        return Data(buffer: buffer)
+                        Data(buffer: buffer)
                     case .bigEndian:
-                        return Data(Data(buffer: buffer).reversed())
+                        Data(Data(buffer: buffer).reversed())
                     }
-                    
+
                 case .bigEndian:
                     switch ByteOrder.platformDefault {
                     case .littleEndian:
-                        return Data(Data(buffer: buffer).reversed())
+                        Data(Data(buffer: buffer).reversed())
                     case .bigEndian:
-                        return Data(buffer: buffer)
+                        Data(buffer: buffer)
                     }
                 }
             }
@@ -51,37 +51,37 @@ extension DataProtocol {
             assertionFailure("Data byte length is incorrect. Expected 4 bytes but got \(count).")
             return nil
         }
-        
+
         // define conversions
-        
+
         // this crashes if Data alignment isn't correct
         // let number = { self.withUnsafeBytes { $0.load(as: Float32.self) } }()
-        
+
         // since load(as:) is not memory alignment safe, memcpy is the current workaround
         // see for more info: https://bugs.swift.org/browse/SR-10273
-        
+
         func number() -> Float32? {
             if let self = self as? Data {
-                self.withUnsafeBytes({
+                self.withUnsafeBytes {
                     var value = Float32()
                     memcpy(&value, $0.baseAddress!, 4)
                     return value
-                })
+                }
             } else if let self = self as? [UInt8] {
-                self.withUnsafeBytes({
+                self.withUnsafeBytes {
                     var value = Float32()
                     memcpy(&value, $0.baseAddress!, 4)
                     return value
-                })
+                }
             } else {
-                self.withContiguousStorageIfAvailable({
+                withContiguousStorageIfAvailable {
                     var value = Float32()
                     memcpy(&value, $0.baseAddress!, 4)
                     return value
-                })
+                }
             }
         }
-        
+
         func numberSwapped() -> Float32? {
             guard let swapped: CFSwappedFloat32 = if let self = self as? Data {
                 self.withUnsafeBytes({
@@ -98,7 +98,7 @@ extension DataProtocol {
                     return value
                 })
             } else {
-                self.withContiguousStorageIfAvailable({
+                withContiguousStorageIfAvailable({
                     // $0.load(as: CFSwappedFloat32.self)
                     var value = CFSwappedFloat32()
                     memcpy(&value, $0.baseAddress!, 4)
@@ -109,16 +109,16 @@ extension DataProtocol {
             }
             return CFConvertFloat32SwappedToHost(swapped)
         }
-        
+
         // determine which conversion is needed
-        
+
         return switch byteOrder {
         case .littleEndian:
             switch ByteOrder.platformDefault {
             case .littleEndian: number()
             case .bigEndian: numberSwapped()
             }
-            
+
         case .bigEndian:
             switch ByteOrder.platformDefault {
             case .littleEndian: numberSwapped()

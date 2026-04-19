@@ -23,8 +23,8 @@ extension ByteOrder {
 #elseif canImport(CoreFoundation)
 
 import var CoreFoundation.CFByteOrderBigEndian
-import var CoreFoundation.CFByteOrderLittleEndian
 import func CoreFoundation.CFByteOrderGetCurrent
+import var CoreFoundation.CFByteOrderLittleEndian
 
 extension ByteOrder {
     private static func getByteOrder() -> ByteOrder {

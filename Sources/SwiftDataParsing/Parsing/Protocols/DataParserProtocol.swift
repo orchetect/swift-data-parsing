@@ -13,44 +13,44 @@ public protocol DataParserProtocol {
     associatedtype DataType: DataProtocol
     associatedtype DataRange
     associatedtype DataElement
-    
+
     /// Return the byte count of the data structure.
     @inline(__always)
     var count: Int { get }
-    
+
     /// Current byte index of read offset (byte position).
     ///
     /// This property is read-only. To manually seek by/to offsets, use the `seek(by:)` or `seek(to:)` methods.
     var readOffset: Int { get }
-    
+
     /// Returns number of available remaining bytes.
     var remainingByteCount: Int { get }
-    
+
     /// Advance (positive integer) or recede (negative integer) by the specified number of bytes from current read offset.
     ///
     /// If the resulting read offset is past the start or past one-past-the-end, an error is thrown.
     mutating func seek(by delta: Int) throws(DataParserError)
-    
+
     /// Move the current read offset to the specified index.
     ///
     /// If the resulting read offset is past the start or past one-past-the-end, an error is thrown.
     mutating func seek(to offset: Int) throws(DataParserError)
-    
+
     /// Move the current read offset to the specified index, without bounds checking.
     @inline(__always)
     mutating func seek(unsafeTo offset: Int)
-    
+
     /// Return the next byte and optionally increment the read offset.
     ///
     /// If no bytes remain, an error will be thrown.
     mutating func readByte(advance: Bool) throws(DataParserError) -> DataElement
-    
+
     /// Return _n_ number of bytes and optionally increment the read offset.
     /// If `nil` byte count is passed, the remainder of the data will be returned.
     ///
     /// If fewer bytes remain than are requested, an error will be thrown.
     mutating func read(bytes count: Int?, advance: Bool) throws(DataParserError) -> DataRange
-    
+
     /// Resets read offset back to byte index 0.
     @inline(__always)
     mutating func seekToStart()
@@ -59,8 +59,10 @@ public protocol DataParserProtocol {
 // MARK: - Defaulted Implementation
 
 extension DataParserProtocol {
-    public var remainingByteCount: Int { count - readOffset }
-    
+    public var remainingByteCount: Int {
+        count - readOffset
+    }
+
     public mutating func seek(by delta: Int) throws(DataParserError) {
         guard delta != 0 else { return }
         let proposedOffset = readOffset + delta
@@ -68,13 +70,13 @@ extension DataParserProtocol {
         guard proposedOffset <= count else { throw .pastEndOfStream }
         seek(unsafeTo: proposedOffset)
     }
-    
+
     public mutating func seek(to offset: Int) throws(DataParserError) {
         guard offset > -1 else { throw .pastStartOfStream }
         guard offset <= count else { throw .pastEndOfStream }
         seek(unsafeTo: offset)
     }
-    
+
     @inline(__always)
     public mutating func seekToStart() {
         seek(unsafeTo: 0)
@@ -82,6 +84,7 @@ extension DataParserProtocol {
 }
 
 // MARK: - Defaulted Parameters Implementation
+
 // Since protocols cannot define defaulted parameters of methods, we have to fake defaulted parameters with manual implementation.
 
 extension DataParserProtocol {
@@ -91,21 +94,21 @@ extension DataParserProtocol {
     public mutating func readByte() throws(DataParserError) -> DataElement {
         try readByte(advance: true)
     }
-    
+
     /// Return the remainder of the data and increment the read offset.
     ///
     /// If fewer bytes remain than are requested, an error will be thrown.
     public mutating func read() throws(DataParserError) -> DataRange {
         try read(bytes: nil, advance: true)
     }
-    
+
     /// Return the remainder of the data, optionally incrementing the read offset.
     ///
     /// If fewer bytes remain than are requested, an error will be thrown.
     public mutating func read(advance: Bool) throws(DataParserError) -> DataRange {
         try read(bytes: nil, advance: advance)
     }
-    
+
     /// Return _n_ number of bytes and increment the read offset.
     /// If `nil` byte count is passed, the remainder of the data will be returned.
     ///

@@ -34,6 +34,7 @@ let package = Package(
         func getEnvironmentVar(_ name: String) -> String? {
             ProcessInfo.processInfo.environment[name]
         }
+
     #elseif canImport(CoreFoundation)
         import CoreFoundation
 

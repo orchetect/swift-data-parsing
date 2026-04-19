@@ -30,19 +30,19 @@ extension DataProtocol {
     public static func == (lhs: Self, rhs: Data) -> Bool {
         lhs.elementsEqual(rhs)
     }
-    
+
     public static func == (lhs: Self, rhs: [UInt8]) -> Bool {
         lhs.elementsEqual(rhs)
     }
-    
+
     public static func == (lhs: Self, rhs: ArraySlice<UInt8>) -> Bool {
         lhs.elementsEqual(rhs)
     }
-    
+
     public static func == (lhs: Self, rhs: UnsafeBufferPointer<UInt8>) -> Bool {
         lhs.elementsEqual(rhs)
     }
-    
+
     public static func == (lhs: Self, rhs: Slice<UnsafeBufferPointer<UInt8>>) -> Bool {
         lhs.elementsEqual(rhs)
     }

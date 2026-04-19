@@ -8,13 +8,13 @@ extension SignedInteger where Self: FixedWidthInteger, Self: EncodableToUnsigned
     /// Decode a signed integer from a byte encoded with the specified encoding format.
     public init(decoding source: EncodedInteger, as encoding: SignedIntegerEncoding) {
         lazy var signBit = source.signBit
-        
+
         switch encoding {
         case .signedBit: // for Int8: -128 ... 0 ... 127
             // signed integer types use signed bit encoding by default
             self.init(bitPattern: source)
             return
-            
+
         case .onesComplement: // for Int8: -127 ... -0, +0 ... 127
             switch signBit {
             case 0b0: // positive
@@ -22,18 +22,17 @@ extension SignedInteger where Self: FixedWidthInteger, Self: EncodableToUnsigned
                 precondition(source < (EncodedInteger(Self.max) + 1)) // make sure value will fit
                 self.init(bitPattern: source.nonSignBits)
                 return
-                
+
             case 0b1: // negative
                 // For -ve numbers, use the +ve binary and take 1's complement
                 let nsb = source.nonSignBits
                 self = Self(nsb) - Self(EncodedInteger.nonSignBitsMask)
                 return
-                
+
             default:
                 fatalError("Encountered unexpected signum.")
             }
-            
-            
+
         case .twosComplement:
             switch signBit {
             case 0b0: // positive
@@ -41,12 +40,13 @@ extension SignedInteger where Self: FixedWidthInteger, Self: EncodableToUnsigned
                 precondition(source < (EncodedInteger(Self.max) + 1)) // make sure value will fit
                 self.init(bitPattern: source.nonSignBits)
                 return
-                
+
             case 0b1: // negative
                 // For -ve numbers, use the +ve binary and take 2's complement
                 let nsb = Self(source.nonSignBits)
                 self = -(Self(EncodedInteger.nonSignBitsMask) - nsb) - 1
                 return
+
             default:
                 fatalError("Encountered unexpected signum.")
             }

@@ -12,7 +12,7 @@ import protocol Foundation.DataProtocol
 /// Protocol adopted by data types supported by ``DataParserProtocol``.
 protocol DataParserDataProtocol where Self: DataProtocol, SubSequence: DataParserDataProtocol {
     associatedtype SubSequence
-    
+
     // Restated from DataProtocol concrete types
     func withUnsafeBytes<ResultType>(_ body: (UnsafeRawBufferPointer) throws -> ResultType) rethrows -> ResultType
 }

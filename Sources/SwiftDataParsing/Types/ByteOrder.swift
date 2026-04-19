@@ -19,7 +19,7 @@
 public enum ByteOrder {
     /// Little-endian byte order. (default for Apple platforms)
     case littleEndian
-    
+
     /// Big-endian byte order.
     case bigEndian
 }

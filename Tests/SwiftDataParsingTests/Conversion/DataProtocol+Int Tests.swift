@@ -10,7 +10,8 @@ import Foundation
 import SwiftDataParsing
 import Testing
 
-@Suite struct DataProtocol_Int_Tests {
+@Suite
+struct DataProtocol_Int_Tests {
     @Test
     func int() async {
         // Int is 32-bit on 32-bit systems, 64-bit on 64-bit systems
@@ -53,7 +54,7 @@ import Testing
             #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toInt() == nil) // overflow
         }
         #endif
-            
+
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt(from: .littleEndian)
                 == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
@@ -113,7 +114,7 @@ import Testing
             #expect(Data([1, 2, 3, 4, 5]).toInt() == nil) // overflow
         }
         #endif
-        
+
         #expect(
             Data([1, 2, 3, 4]).toInt(from: .littleEndian)
                 == 0b0000_0100_0000_0011_0000_0010_0000_0001
@@ -152,7 +153,7 @@ import Testing
     }
 
     @Test
-    func int_uInt8Array() async {
+    func int_uInt8Array() {
         // Int is 32-bit on 32-bit systems, 64-bit on 64-bit systems
 
         #if !(arch(arm) || arch(arm64_32) || arch(i386))
@@ -198,7 +199,7 @@ import Testing
         // .toInt8
 
         #expect(Data([1]).toInt8() == 0b0000_0001)
-        
+
         #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(Data([]).toInt8() == nil) // underflow
@@ -207,7 +208,7 @@ import Testing
             #expect(Data([1, 2]).toInt8() == nil) // overflow
         }
         #endif
-            
+
         // both ways
 
         #expect(Int8(1).toData().toInt8() == 1)
@@ -220,7 +221,7 @@ import Testing
         // .toInt8
 
         #expect(([1] as [UInt8]).toInt8() == 0b0000_0001)
-        
+
         #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
             #expect(([] as [UInt8]).toInt8() == nil) // underflow
@@ -230,17 +231,17 @@ import Testing
         }
         #endif
     }
-    
+
     @Test
     func int16() async {
         // .toData
 
         #expect(Int16(0b1).toData(.littleEndian) == Data([0b1, 0]))
         #expect(Int16(0b1).toData(.bigEndian) == Data([0, 0b1]))
-        
+
         #expect(Int16(-2).toData(.littleEndian, as: .twosComplement) == Data([0b1111_1110, 0b1111_1111]))
         #expect(Int16(-2).toData(.bigEndian, as: .twosComplement) == Data([0b1111_1111, 0b1111_1110]))
-        
+
         // .toInt16
 
         #if os(macOS) && compiler(>=6.2)
@@ -254,7 +255,7 @@ import Testing
             #expect(Data([1, 2, 3]).toInt16() == nil) // overflow
         }
         #endif
-        
+
         #expect(
             Data([1, 2]).toInt16(from: .littleEndian)
                 == 0b0000_0010_0000_0001
@@ -263,12 +264,12 @@ import Testing
             Data([1, 2]).toInt16(from: .bigEndian)
                 == 0b0000_0001_0000_0010
         )
-        
+
         #expect(
             Data([0b1111_1110, 0b1111_1111]).toInt16(from: .littleEndian, as: .twosComplement)
                 == -2
         )
-        
+
         #expect(
             Data([0b1111_1111, 0b1111_1110]).toInt16(from: .bigEndian, as: .twosComplement)
                 == -2
@@ -285,7 +286,7 @@ import Testing
     }
 
     @Test
-    func int16_uInt8Array() async {
+    func int16_uInt8Array() {
         // .toInt16
 
         #expect(
@@ -324,7 +325,7 @@ import Testing
             #expect(Data([1, 2, 3, 4, 5]).toInt32() == nil) // overflow
         }
         #endif
-        
+
         #expect(
             Data([1, 2, 3, 4]).toInt32(from: .littleEndian)
                 == 0b0000_0100_0000_0011_0000_0010_0000_0001
@@ -357,7 +358,7 @@ import Testing
     }
 
     @Test
-    func int32_uInt8Array() async {
+    func int32_uInt8Array() {
         // .toInt32
 
         #expect(
@@ -371,7 +372,7 @@ import Testing
     }
 
     @Test
-    func int32_data_pointer() async {
+    func int32_data_pointer() {
         // .toInt32
 
         let data = Data([1, 2, 3, 4])
@@ -388,7 +389,7 @@ import Testing
     }
 
     @Test
-    func int32_data_subsequence_pointer() async {
+    func int32_data_subsequence_pointer() {
         // .toInt32
 
         let baseData = Data([99, 1, 2, 3, 4])
@@ -407,7 +408,7 @@ import Testing
     }
 
     @Test
-    func int32_rawPointer() async {
+    func int32_rawPointer() {
         // .toInt32
 
         let data = Data([1, 2, 3, 4])
@@ -424,7 +425,7 @@ import Testing
     }
 
     @Test
-    func int32_rawPointer_slice() async {
+    func int32_rawPointer_slice() {
         // .toInt32
 
         let data = Data([99, 1, 2, 3, 4])
@@ -442,7 +443,7 @@ import Testing
     }
 
     @Test
-    func int32_uInt8Pointer_slice() async {
+    func int32_uInt8Pointer_slice() {
         // .toInt32
 
         let data = Data([99, 1, 2, 3, 4])
@@ -498,7 +499,7 @@ import Testing
             #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toInt64() == nil) // overflow
         }
         #endif
-        
+
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt64(from: .littleEndian)
                 == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
@@ -534,7 +535,7 @@ import Testing
     }
 
     @Test
-    func int64_uInt8Array() async {
+    func int64_uInt8Array() {
         // .toInt64
 
         #expect(

@@ -12,49 +12,48 @@ extension UnsignedInteger where Self: FixedWidthInteger, Self: DecodableFromSign
             // signed integer types use signed bit encoding by default
             self.init(bitPattern: source)
             return
-            
+
         case .onesComplement: // for Int8: -127 ... -0, +0 ... 127
             switch source.signum() {
             case 1:
                 // For +ve numbers the representation rules are the same as signed integer representation.
                 self.init(bitPattern: source)
                 return
-                
+
             case 0:
                 // technically 1's complement has -0 and +0, but a signed integer only has one 0 value,
                 // so we will prefer the +0 encoding
                 self = 0
                 return
-                
+
             case -1:
                 // For -ve numbers, use the +ve binary and take 1's complement
                 precondition(source > DecodedInteger.min)
                 self = Self.signBitMask + (Self.nonSignBitsMask - Self(abs(source)).nonSignBits)
                 return
-                
+
             default:
                 fatalError("Encountered unexpected signum.")
             }
-            
-            
+
         case .twosComplement: // for Int8: -128 ... 0 ... 127
             switch source.signum() {
             case 1:
                 // For +ve numbers the representation rules are the same as signed integer representation.
                 self.init(bitPattern: source)
                 return
-                
+
             case 0:
                 self = 0
                 return
-                
+
             case -1:
                 // For -ve numbers, use the +ve binary and take 2's complement
                 let absValue = Self(abs(Int(source))) // need larger integer to fit max value
                 let magnitude = Self((Self.nonSignBitsMask + 1) - absValue)
                 self = Self.signBitMask + (magnitude & Self.nonSignBitsMask)
                 return
-                
+
             default:
                 fatalError("Encountered unexpected signum.")
             }

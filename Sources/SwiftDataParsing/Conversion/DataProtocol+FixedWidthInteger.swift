@@ -19,7 +19,7 @@ extension FixedWidthInteger {
         case .littleEndian: littleEndian
         case .bigEndian: bigEndian
         }
-        
+
         return withUnsafeBytes(of: &int) { rawBuffer in
             rawBuffer.withMemoryRebound(to: UInt8.self) { buffer in
                 Data(buffer: buffer)
@@ -39,12 +39,12 @@ extension DataProtocol {
             assertionFailure("Data byte length is incorrect. Expected \(expectedByteLength) bytes but got \(count).")
             return nil
         }
-        
+
         // define conversion
-        
+
         // this crashes if Data alignment isn't correct
         // let int: T = { self.withUnsafeBytes { $0.load(as: T.self) } }()
-        
+
         // since load(as:) is not memory alignment safe, memcpy is the current workaround
         // see for more info: https://bugs.swift.org/browse/SR-10273
         guard let int: T = if let self = self as? Data {
@@ -60,7 +60,7 @@ extension DataProtocol {
                 return value
             })
         } else {
-            self.withContiguousStorageIfAvailable({
+            withContiguousStorageIfAvailable({
                 var value = T()
                 memcpy(&value, $0.baseAddress!, MemoryLayout<T>.size)
                 return value
@@ -68,16 +68,16 @@ extension DataProtocol {
         } else {
             return nil
         }
-        
+
         // determine which conversion is needed
-        
+
         return switch byteOrder {
         case .littleEndian:
             switch ByteOrder.platformDefault {
             case .littleEndian: int
             case .bigEndian: int.byteSwapped
             }
-            
+
         case .bigEndian:
             switch ByteOrder.platformDefault {
             case .littleEndian: int.byteSwapped

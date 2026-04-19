@@ -43,59 +43,59 @@ import protocol Foundation.DataProtocol
 public struct InoutDataParser<DataType: DataProtocol>: _DataParserProtocol {
     public typealias DataElement = DataType.Element
     public typealias DataRange = DataType.SubSequence
-    
+
     typealias DataAccess = (_ block: InoutDataAccess) -> Void
     typealias InoutDataAccess = (inout DataType) -> Void
-    
+
     let dataAccess: DataAccess
-    
+
     @inline(__always)
     public let count: Int
-    
+
     // MARK: - Init
-    
+
     init(dataAccess: @escaping DataAccess) {
         self.dataAccess = dataAccess
-        
+
         var count: Int!
         dataAccess { count = $0.count }
         self.count = count
     }
-    
+
     // MARK: - State
-    
+
     public internal(set) var readOffset = 0
-    
+
     // MARK: - Internal
-    
+
     @usableFromInline
     typealias DataIndex = DataType.Index
-    
+
     @inlinable
     func _dataStartIndex() -> DataIndex {
         withData { $0.startIndex }
     }
-    
+
     @inlinable
     func _dataReadOffsetIndex(offsetBy offset: Int) -> DataIndex {
         withData { $0.index($0.startIndex, offsetBy: readOffset + offset) }
     }
-    
+
     @inlinable
     func _dataByte(at dataIndex: DataIndex) throws(DataParserError) -> DataElement {
         withData { $0[dataIndex] }
     }
-    
+
     func _dataBytes(in dataIndexRange: Range<DataIndex>) throws(DataParserError) -> DataRange {
         withData { $0[dataIndexRange] }
     }
-    
+
     func _dataBytes(in dataIndexRange: ClosedRange<DataIndex>) throws(DataParserError) -> DataRange {
         withData { $0[dataIndexRange] }
     }
-    
+
     // MARK: - Helpers
-    
+
     @inline(__always) @usableFromInline
     func withData<T>(_ block: (inout DataType) -> T) -> T {
         var out: T!
@@ -123,7 +123,7 @@ extension DataProtocol {
     ) throws(E) -> T {
         // since `withUnsafe... { }` does not work with typed error throws, we have to use a workaround to get the typed error out
         var result: Result<T, E>!
-        
+
         withUnsafeMutablePointer(to: &self) { ptr in
             var parser = InoutDataParser(dataAccess: { $0(&ptr.pointee) })
             do throws(E) {

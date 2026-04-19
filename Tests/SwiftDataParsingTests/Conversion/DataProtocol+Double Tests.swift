@@ -10,7 +10,8 @@ import Foundation
 import SwiftDataParsing
 import Testing
 
-@Suite struct DataProtocol_Double_Tests {
+@Suite
+struct DataProtocol_Double_Tests {
     @Test
     func double() async {
         // .toData
@@ -55,7 +56,7 @@ import Testing
             #expect(Data([1, 2, 3, 4, 5, 6, 7, 8, 9]).toDouble() == nil) // overflow
         }
         #endif
-            
+
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toDouble(from: .littleEndian)
                 == 5.447603722011605e-270
@@ -91,7 +92,7 @@ import Testing
     }
 
     @Test
-    func double_uInt8Array() async {
+    func double_uInt8Array() {
         // .toDouble
 
         #expect(
@@ -105,7 +106,7 @@ import Testing
     }
 
     @Test
-    func double_data_pointer() async {
+    func double_data_pointer() {
         // .toDouble
 
         let data = Data([1, 2, 3, 4, 5, 6, 7, 8])
@@ -120,7 +121,7 @@ import Testing
     }
 
     @Test
-    func double_data_subsequence_pointer() async {
+    func double_data_subsequence_pointer() {
         // .toDouble
 
         let baseData = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])
@@ -137,7 +138,7 @@ import Testing
     }
 
     @Test
-    func double_rawPointer() async {
+    func double_rawPointer() {
         // .toDouble
 
         let data = Data([1, 2, 3, 4, 5, 6, 7, 8])
@@ -152,7 +153,7 @@ import Testing
     }
 
     @Test
-    func double_rawPointer_slice() async {
+    func double_rawPointer_slice() {
         // .toDouble
 
         let data = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])
@@ -168,7 +169,7 @@ import Testing
     }
 
     @Test
-    func double_uInt8Pointer_slice() async {
+    func double_uInt8Pointer_slice() {
         // .toDouble
 
         let data = Data([99, 1, 2, 3, 4, 5, 6, 7, 8])

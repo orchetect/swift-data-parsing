@@ -7,12 +7,13 @@
 import SwiftDataParsing
 import Testing
 
-@Suite struct FixedWidthInteger_Extensions_Tests {
+@Suite
+struct FixedWidthInteger_Extensions_Tests {
     @Test
-    func signBit() async {
+    func signBit() {
         #expect(UInt8(0b0000_0000).signBit == 0)
         #expect(UInt8(0b1000_0000).signBit == 1)
-        
+
         #expect(UInt16(0b0000_0000_0000_0000).signBit == 0)
         #expect(UInt16(0b1000_0000_0000_0000).signBit == 1)
         
@@ -22,25 +23,25 @@ import Testing
         #expect(UInt64(0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000).signBit == 0)
         #expect(UInt64(0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000).signBit == 1)
     }
-    
+
     @Test
-    func signBitMask() async {
+    func signBitMask() {
         #expect(UInt8.signBitMask == 0b1000_0000)
-        
+
         #expect(UInt16.signBitMask == 0b1000_0000_0000_0000)
         
         #expect(UInt32.signBitMask == 0b10000000_00000000_00000000_00000000)
         
         #expect(UInt64.signBitMask == 0b10000000_00000000_00000000_00000000_00000000_00000000_00000000_00000000)
     }
-    
+
     @Test
-    func nonSignBits() async {
+    func nonSignBits() {
         #expect(UInt8(0b0000_0000).nonSignBits == 0)
         #expect(UInt8(0b1000_0000).nonSignBits == 0)
         #expect(UInt8(0b0111_1111).nonSignBits == 0b0111_1111)
         #expect(UInt8(0b1111_1111).nonSignBits == 0b0111_1111)
-        
+
         #expect(UInt16(0b0000_0000_0000_0000).nonSignBits == 0)
         #expect(UInt16(0b1000_0000_0000_0000).nonSignBits == 0)
         #expect(UInt16(0b0111_1111_1111_1111).nonSignBits == 0b0111_1111_1111_1111)
@@ -68,11 +69,11 @@ import Testing
                 == 0b01111111_11111111_11111111_11111111_11111111_11111111_11111111_11111111
         )
     }
-    
+
     @Test
-    func nonSignBitsMask() async {
+    func nonSignBitsMask() {
         #expect(UInt8.nonSignBitsMask == 0b0111_1111)
-        
+
         #expect(UInt16.nonSignBitsMask == 0b0111_1111_1111_1111)
         
         #expect(UInt32.nonSignBitsMask == 0b01111111_11111111_11111111_11111111)
