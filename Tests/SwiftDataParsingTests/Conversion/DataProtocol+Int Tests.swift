@@ -57,11 +57,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt(from: .littleEndian)
-                == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00001000_00000111_00000110_00000101_00000100_00000011_00000010_00000001
         )
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100_0000_0101_0000_0110_0000_0111_0000_1000
+                == 0b00000001_00000010_00000011_00000100_00000101_00000110_00000111_00001000
         )
 
         // both ways
@@ -117,11 +117,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             Data([1, 2, 3, 4]).toInt(from: .littleEndian)
-                == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00000100_00000011_00000010_00000001
         )
         #expect(
             Data([1, 2, 3, 4]).toInt(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                == 0b00000001_00000010_00000011_00000100
         )
 
         // both ways
@@ -162,11 +162,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             ([1, 2, 3, 4, 5, 6, 7, 8] as [UInt8]).toInt(from: .littleEndian)
-                == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00001000_00000111_00000110_00000101_00000100_00000011_00000010_00000001
         )
         #expect(
             ([1, 2, 3, 4, 5, 6, 7, 8] as [UInt8]).toInt(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100_0000_0101_0000_0110_0000_0111_0000_1000
+                == 0b00000001_00000010_00000011_00000100_00000101_00000110_00000111_00001000
         )
 
         #elseif (arch(arm) || arch(arm64_32) || !arch(i386))
@@ -175,11 +175,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             ([1, 2, 3, 4] as [UInt8]).toInt(from: .littleEndian)
-                == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00000100_00000011_00000010_00000001
         )
         #expect(
             ([1, 2, 3, 4] as [UInt8]).toInt(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                == 0b00000001_00000010_00000011_00000100
         )
 
         #else
@@ -194,11 +194,11 @@ struct DataProtocol_Int_Tests {
         // .toData
 
         #expect(Int8(0b1).toData() == Data([0b1]))
-        #expect(Int8(-128).toData() == Data([0b1000_0000]))
+        #expect(Int8(-128).toData() == Data([0b10000000]))
 
         // .toInt8
 
-        #expect(Data([1]).toInt8() == 0b0000_0001)
+        #expect(Data([1]).toInt8() == 0b00000001)
 
         #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
@@ -220,7 +220,7 @@ struct DataProtocol_Int_Tests {
     func int8_uInt8Array() async {
         // .toInt8
 
-        #expect(([1] as [UInt8]).toInt8() == 0b0000_0001)
+        #expect(([1] as [UInt8]).toInt8() == 0b00000001)
 
         #if os(macOS) && compiler(>=6.2)
         await #expect(processExitsWith: .failure) {
@@ -239,8 +239,8 @@ struct DataProtocol_Int_Tests {
         #expect(Int16(0b1).toData(.littleEndian) == Data([0b1, 0]))
         #expect(Int16(0b1).toData(.bigEndian) == Data([0, 0b1]))
 
-        #expect(Int16(-2).toData(.littleEndian, as: .twosComplement) == Data([0b1111_1110, 0b1111_1111]))
-        #expect(Int16(-2).toData(.bigEndian, as: .twosComplement) == Data([0b1111_1111, 0b1111_1110]))
+        #expect(Int16(-2).toData(.littleEndian, as: .twosComplement) == Data([0b11111110, 0b11111111]))
+        #expect(Int16(-2).toData(.bigEndian, as: .twosComplement) == Data([0b11111111, 0b11111110]))
 
         // .toInt16
 
@@ -258,20 +258,20 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             Data([1, 2]).toInt16(from: .littleEndian)
-                == 0b0000_0010_0000_0001
+                == 0b00000010_00000001
         )
         #expect(
             Data([1, 2]).toInt16(from: .bigEndian)
-                == 0b0000_0001_0000_0010
+                == 0b00000001_00000010
         )
 
         #expect(
-            Data([0b1111_1110, 0b1111_1111]).toInt16(from: .littleEndian, as: .twosComplement)
+            Data([0b11111110, 0b11111111]).toInt16(from: .littleEndian, as: .twosComplement)
                 == -2
         )
 
         #expect(
-            Data([0b1111_1111, 0b1111_1110]).toInt16(from: .bigEndian, as: .twosComplement)
+            Data([0b11111111, 0b11111110]).toInt16(from: .bigEndian, as: .twosComplement)
                 == -2
         )
 
@@ -291,11 +291,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             ([1, 2] as [UInt8]).toInt16(from: .littleEndian)
-                == 0b0000_0010_0000_0001
+                == 0b00000010_00000001
         )
         #expect(
             ([1, 2] as [UInt8]).toInt16(from: .bigEndian)
-                == 0b0000_0001_0000_0010
+                == 0b00000001_00000010
         )
     }
 
@@ -328,11 +328,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             Data([1, 2, 3, 4]).toInt32(from: .littleEndian)
-                == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00000100_00000011_00000010_00000001
         )
         #expect(
             Data([1, 2, 3, 4]).toInt32(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                == 0b00000001_00000010_00000011_00000100
         )
 
         // both ways
@@ -363,11 +363,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             ([1, 2, 3, 4] as [UInt8]).toInt32(from: .littleEndian)
-                == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00000100_00000011_00000010_00000001
         )
         #expect(
             ([1, 2, 3, 4] as [UInt8]).toInt32(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                == 0b00000001_00000010_00000011_00000100
         )
     }
 
@@ -379,11 +379,11 @@ struct DataProtocol_Int_Tests {
         data.withContiguousStorageIfAvailable { buffer in // UnsafeBufferPointer<UInt8>
             #expect(
                 buffer.toInt32(from: .littleEndian)
-                    == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                    == 0b00000100_00000011_00000010_00000001
             )
             #expect(
                 buffer.toInt32(from: .bigEndian)
-                    == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                    == 0b00000001_00000010_00000011_00000100
             )
         }
     }
@@ -398,11 +398,11 @@ struct DataProtocol_Int_Tests {
         data.withContiguousStorageIfAvailable { buffer in // UnsafeBufferPointer<UInt8>
             #expect(
                 buffer.toInt32(from: .littleEndian)
-                    == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                    == 0b00000100_00000011_00000010_00000001
             )
             #expect(
                 buffer.toInt32(from: .bigEndian)
-                    == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                    == 0b00000001_00000010_00000011_00000100
             )
         }
     }
@@ -415,11 +415,11 @@ struct DataProtocol_Int_Tests {
         data.withUnsafeBytes { buffer in // UnsafeRawBufferPointer
             #expect(
                 buffer.toInt32(from: .littleEndian)
-                    == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                    == 0b00000100_00000011_00000010_00000001
             )
             #expect(
                 buffer.toInt32(from: .bigEndian)
-                    == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                    == 0b00000001_00000010_00000011_00000100
             )
         }
     }
@@ -433,11 +433,11 @@ struct DataProtocol_Int_Tests {
             let subdata: Slice<UnsafeRawBufferPointer> = buffer[1 ... 4]
             #expect(
                 subdata.toInt32(from: .littleEndian)
-                    == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                    == 0b00000100_00000011_00000010_00000001
             )
             #expect(
                 subdata.toInt32(from: .bigEndian)
-                    == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                    == 0b00000001_00000010_00000011_00000100
             )
         }
     }
@@ -451,11 +451,11 @@ struct DataProtocol_Int_Tests {
             let subdata: Slice<UnsafeBufferPointer<UInt8>> = buffer[1 ... 4]
             #expect(
                 subdata.toInt32(from: .littleEndian)
-                    == 0b0000_0100_0000_0011_0000_0010_0000_0001
+                    == 0b00000100_00000011_00000010_00000001
             )
             #expect(
                 subdata.toInt32(from: .bigEndian)
-                    == 0b0000_0001_0000_0010_0000_0011_0000_0100
+                    == 0b00000001_00000010_00000011_00000100
             )
         }
     }
@@ -502,11 +502,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt64(from: .littleEndian)
-                == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00001000_00000111_00000110_00000101_00000100_00000011_00000010_00000001
         )
         #expect(
             Data([1, 2, 3, 4, 5, 6, 7, 8]).toInt64(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100_0000_0101_0000_0110_0000_0111_0000_1000
+                == 0b00000001_00000010_00000011_00000100_00000101_00000110_00000111_00001000
         )
 
         // both ways
@@ -540,11 +540,11 @@ struct DataProtocol_Int_Tests {
 
         #expect(
             ([1, 2, 3, 4, 5, 6, 7, 8] as [UInt8]).toInt64(from: .littleEndian)
-                == 0b0000_1000_0000_0111_0000_0110_0000_0101_0000_0100_0000_0011_0000_0010_0000_0001
+                == 0b00001000_00000111_00000110_00000101_00000100_00000011_00000010_00000001
         )
         #expect(
             ([1, 2, 3, 4, 5, 6, 7, 8] as [UInt8]).toInt64(from: .bigEndian)
-                == 0b0000_0001_0000_0010_0000_0011_0000_0100_0000_0101_0000_0110_0000_0111_0000_1000
+                == 0b00000001_00000010_00000011_00000100_00000101_00000110_00000111_00001000
         )
     }
     #endif
