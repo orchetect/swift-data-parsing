@@ -47,7 +47,7 @@ extension DataProtocol {
 
         // since load(as:) is not memory alignment safe, memcpy is the current workaround
         // see for more info: https://bugs.swift.org/browse/SR-10273
-        
+
         // swiftformat:disable all
         guard let int: T = if let self = self as? Data {
             self.withUnsafeBytes({
