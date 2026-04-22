@@ -136,13 +136,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      SDK_ID: swift-6.3.1-RELEASE_android
-      SDK_URL: https://download.swift.org/swift-6.3.1-release/android-sdk/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE_android.artifactbundle.tar.gz
-      SDK_CHECKSUM: 8193a4e96538635131a154736c8896fba0e5a1c30e065524f00ed78719bac35a
       TARGET_TRIPLE: aarch64-unknown-linux-android28
     steps:
     - uses: actions/checkout@main
     # AFAIK, the SDK is not pre-installed on the runner images
+    - name: Prepare Android SDK Parameters
+      run: |
+        SWIFT_VER_COMMAND_OUTPUT=$(swift --version)
+        SWIFT_VER_REGEX="m/.*Swift\sversion\s([\d\.]{3,8})\s\((.+)\)/g"
+        SWIFT_VER=$(echo "${SWIFT_VER_COMMAND_OUTPUT}" | perl -nle 'if ('$SWIFT_VER_REGEX') { ($short, $long) = ($1, $2); print "${short}"; }')
+        if [[ -z $SWIFT_VER ]]; then echo "⛔️ Error: Cound not determine Swift version."; exit 1; fi
+        case $SWIFT_VER in
+          6.3)
+            SDK_ID="swift-6.3-RELEASE_android"
+            SDK_URL="https://download.swift.org/swift-6.3-release/android-sdk/swift-6.3-RELEASE/swift-6.3-RELEASE_android.artifactbundle.tar.gz"
+            SDK_CHECKSUM="2f2942c4bcea7965a08665206212c66991dabe23725aeec7c4365fc91acad088" ;;
+          6.3.1)
+            SDK_ID="swift-6.3.1-RELEASE_android"
+            SDK_URL="https://download.swift.org/swift-6.3.1-release/android-sdk/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE_android.artifactbundle.tar.gz"
+            SDK_CHECKSUM="8193a4e96538635131a154736c8896fba0e5a1c30e065524f00ed78719bac35a" ;;
+          *)
+            echo "⛔️ Error: Unhandled Swift version: $SWIFT_VER. Please update script with URL and checksum for this version."; exit 1 ;;
+        esac
+        # Export variables to GitHub runner environment.
+        echo "SDK_ID=$(echo $SDK_ID)" >> $GITHUB_OUTPUT
+        echo "SDK_URL=$(echo $SDK_URL)" >> $GITHUB_OUTPUT
+        echo "SDK_CHECKSUM=$(echo $SDK_CHECKSUM)" >> $GITHUB_OUTPUT
     - name: Install Android SDK for Swift
       run: |
         swift sdk install "$SDK_URL" --checksum "$SDK_CHECKSUM"
