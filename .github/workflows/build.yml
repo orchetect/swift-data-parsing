@@ -141,6 +141,6 @@ jobs:
     - uses: actions/checkout@main
     - uses: orchetect/setup-swift-android-sdk@main # @v1
       with:
-        target-triple: $TARGET_TRIPLE
+        target-triple: ${{ env.TARGET_TRIPLE }}
     - name: Build
       run: swift build --swift-sdk "$TARGET_TRIPLE" --static-swift-stdlib
