@@ -143,4 +143,4 @@ jobs:
       with:
         target-triple: $TARGET_TRIPLE
     - name: Build
-    - run: swift build --swift-sdk "$TARGET_TRIPLE" --static-swift-stdlib
+      run: swift build --swift-sdk "$TARGET_TRIPLE" --static-swift-stdlib
