@@ -141,6 +141,7 @@ jobs:
     - uses: actions/checkout@main
     # AFAIK, the SDK is not pre-installed on the runner images
     - name: Prepare Android SDK Parameters
+      id: sdk-info
       run: |
         SWIFT_VER_COMMAND_OUTPUT=$(swift --version)
         SWIFT_VER_REGEX="m/.*Swift\sversion\s([\d\.]{3,8})\s\((.+)\)/g"
@@ -158,15 +159,26 @@ jobs:
           *)
             echo "⛔️ Error: Unhandled Swift version: $SWIFT_VER. Please update script with URL and checksum for this version."; exit 1 ;;
         esac
+        # Output diagnostic info.
+        echo "SDK ID: $SDK_ID"
+        echo "SDK URL: $SDK_URL"
+        echo "SDK checksum: $SDK_CHECKSUM"
         # Export variables to GitHub runner environment.
         echo "SDK_ID=$(echo $SDK_ID)" >> $GITHUB_OUTPUT
         echo "SDK_URL=$(echo $SDK_URL)" >> $GITHUB_OUTPUT
         echo "SDK_CHECKSUM=$(echo $SDK_CHECKSUM)" >> $GITHUB_OUTPUT
     - name: Install Android SDK for Swift
+      env:
+        SDK_URL: {{ $env.SDK_URL }}
+        SDK_CHECKSUM: {{ $env.SDK_CHECKSUM }}
       run: |
         swift sdk install "$SDK_URL" --checksum "$SDK_CHECKSUM"
     # Android NDK is pre-installed on runner image, we just need to run the SDK setup script to link it
     - name: Setup Android SDK for Swift
+      env:
+        SDK_ID: {{ $env.SDK_ID }}
+        SDK_URL: {{ $env.SDK_URL }}
+        SDK_CHECKSUM: {{ $env.SDK_CHECKSUM }}
       run: |
         SDK_INFO=$(swift sdk configure --show-configuration "${SDK_ID}" "${TARGET_TRIPLE}")
         SDK_PATH_REGEX="m/sdkRootPath\:\s(\S*\/swift\-android)/g"
