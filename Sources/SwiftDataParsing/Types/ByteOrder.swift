@@ -1,6 +1,6 @@
 //
 //  ByteOrder.swift
-//  swift-data-parsing • https://github.com/orchetect/swift-data-parsing
+//  SwiftDataParsing • https://github.com/orchetect/swift-data-parsing
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
